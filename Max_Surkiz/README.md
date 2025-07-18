@@ -52,9 +52,3 @@ These tools were selected for their reliability, community support, and suitabil
    ```bash
    pytest tests/
    ```
-
----
-
-**Notes:**
-- All sensitive files (such as `.env`) and cache directories (`__pycache__`) are excluded via `.gitignore`.
-- For more details, see the project plan in `../Homework-task-1.md`. 
