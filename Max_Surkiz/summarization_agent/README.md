@@ -78,17 +78,6 @@ pytest summarization_agent/tests/
 - OpenAI Agents SDK ([документация](https://openai.github.io/openai-agents-python/))
 - openai, nltk, scikit-learn, rouge-score, pytest и др.
 
-## Схема пайплайна (Mermaid)
-
-```mermaid
-graph TD
-    A[Скачать статью] --> B[Экстрактивное резюме]
-    A --> C[Абстрактивное резюме]
-    B --> D[Сравнение (ROUGE)]
-    C --> D
-    D --> E[Markdown-отчёт]
-```
-
 ---
 
 > Автор: Max Surkiz and LLM
