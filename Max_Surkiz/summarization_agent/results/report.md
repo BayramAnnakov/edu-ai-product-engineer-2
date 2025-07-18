@@ -1,0 +1,135 @@
+# Сравнительный отчёт по суммаризации
+
+**URL:** https://www.anthropic.com/engineering/built-multi-agent-research-system
+
+## Экстрактивное резюме
+
+How we built our multi-agent research system \ Anthropic
+Skip to main content
+Skip to footer
+Claude
+API
+Solutions
+Research
+Commitments
+Learn
+News
+Try Claude
+Engineering at Anthropic
+How we built our multi-agent research system
+Published
+Jun 13, 2025
+Our Research feature uses multiple Claude agents to explore complex topics more effectively. Our Research feature involves an agent that plans a research process based on user queries, and then uses tools to create parallel agents that search for information simultaneously. This post breaks down the principles that worked for us—we hope you'll find them useful to apply when building your own multi-agent systems. Subagents facilitate compression by operating in parallel with their own context windows, exploring different aspects of the question simultaneously before condensing the most important tokens for the lead research agent. For instance, although individual humans have become more intelligent in the last 100,000 years, human societies have become
+exponentially
+more capable in the information age because of our
+collective
+intelligence and ability to coordinate. For example, when asked to identify all the board members of the companies in the Information Technology S&P 500, the multi-agent system found the correct answers by decomposing this into tasks for subagents, while the single agent system failed to find the answer with slow, sequential searches. In our analysis, three factors explained 95% of the performance variance in the
+BrowseComp
+evaluation (which tests the ability of browsing agents to locate hard-to-find information). We found that token usage by itself explains 80% of the variance, with the number of tool calls and the model choice as the two other explanatory factors. Further, some domains that require all agents to share the same context or involve many dependencies between agents are not a good fit for multi-agent systems today. For instance, most coding tasks involve fewer truly parallelizable tasks than research, and LLM agents are not yet great at coordinating and delegating to other agents in real time. We’ve found that multi-agent systems excel at valuable tasks that involve heavy parallelization, information that exceeds single context windows, and interfacing with numerous complex tools. Architecture overview for Research
+Our Research system uses a multi-agent architecture with an orchestrator-worker pattern, where a lead agent coordinates the process while delegating to specialized subagents that operate in parallel. As shown in the diagram above, the subagents act as intelligent filters by iteratively using search tools to gather information, in this case on AI agent companies in 2025, and then returning a list of companies to the lead agent so it can compile a final answer. In contrast, our architecture uses a multi-step search that dynamically finds relevant information, adapts to new findings, and analyzes results to formulate high-quality answers. The LeadResearcher begins by thinking through the approach and saving its plan to Memory to persist the context, since if the context window exceeds 200,000 tokens it will be truncated and it is important to retain the plan. The LeadResearcher synthesizes these results and decides whether more research is needed—if so, it can create additional subagents or refine its strategy. Once sufficient information is gathered, the system exits the research loop and passes all findings to a CitationAgent, which processes the documents and research report to identify specific locations for citations. Early agents made errors like spawning 50 subagents for simple queries, scouring the web endlessly for nonexistent sources, and distracting each other with excessive updates. To help us do this, we built simulations using our
+Console
+with the exact prompts and tools from our system, then watched agents work step-by-step. We started by allowing the lead agent to give simple, short instructions like 'research the semiconductor shortage,' but found these instructions often were vague enough that subagents misinterpreted the task or performed the exact same searches as other agents. For instance, one subagent explored the 2021 automotive chip crisis while 2 others duplicated work investigating current 2025 supply chains, without an effective division of labor. These explicit guidelines help the lead agent allocate resources efficiently and prevent overinvestment in simple queries, which was a common failure mode in our early versions. We gave our agents explicit heuristics: for example, examine all available tools first, match tool usage to user intent, search the web for broad external exploration, or prefer specialized tools over generic ones. This process for improving tool ergonomics resulted in a 40% decrease in task completion time for future agents using the new description, because they were able to avoid most mistakes. The lead agent uses thinking to plan its approach, assessing which tools fit the task, determining query complexity and subagent count, and defining each subagent’s role. These changes cut research time by up to 90% for complex queries, allowing Research to do more work in minutes instead of hours while covering more information than other systems. We studied how skilled humans approach research tasks and encoded these strategies in our prompts—strategies like decomposing difficult questions into smaller tasks, carefully evaluating the quality of sources, adjusting search approaches based on new information, and recognizing when to focus on depth (investigating one topic in detail) vs. breadth (exploring many topics in parallel). However, it’s best to start with small-scale testing right away with a few examples, rather than delaying until you can build more thorough evals. We experimented with multiple judges to evaluate each component, but found that a single LLM call with a single prompt outputting scores from 0.0-1.0 and a pass-fail grade was the most consistent and aligned with human judgements. This method was especially effective when the eval test cases
+did
+have a clear answer, and we could use the LLM judge to simply check if the answer was correct (i.e. In our case, human testers noticed that our early agents consistently chose SEO-optimized content farms over authoritative but less highly-ranked sources like academic PDFs or personal blogs. Therefore, the best prompts for these agents are not just strict instructions, but frameworks for collaboration that define the division of labor, problem-solving approaches, and effort budgets. In agentic systems, minor changes cascade into large behavioral changes, which makes it remarkably difficult to write code for complex agents that must maintain state in a long-running process. We also use the model’s intelligence to handle issues gracefully: for instance, letting the agent know when a tool is failing and letting it adapt works surprisingly well. Users have said that Claude helped them find business opportunities they hadn’t considered, navigate complex healthcare options, resolve thorny technical bugs, and save up to days of work by uncovering research connections they wouldn't have found alone. Multi-agent research systems can operate reliably at scale with careful engineering, comprehensive testing, detail-oriented prompt and tool design, robust operational practices, and tight collaboration between research, product, and engineering teams who have a strong understanding of current agent capabilities. The top use case categories are developing software systems across specialized domains (10%), develop and optimize professional and technical content (8%), develop business growth and revenue generation strategies (8%), assist with academic research and educational material development (7%), and research and verify information about people, places, or organizations (5%). Unlike read-only research tasks, each action can change the environment for subsequent steps, creating dependencies that traditional evaluation methods struggle to handle. For complex workflows, break evaluation into discrete checkpoints where specific state changes should have occurred, rather than attempting to validate every intermediate step. Subagent output to a filesystem to minimize the ‘game of telephone.’
+Direct subagent outputs can bypass the main coordinator for certain types of results, improving both fidelity and performance. The pattern works particularly well for structured outputs like code, reports, or data visualizations where the subagent's specialized prompt produces better results than filtering through a general coordinator. Product
+Claude overview
+Claude Code
+Max plan
+Team plan
+Enterprise plan
+Download Claude apps
+Claude.ai pricing plans
+Claude.ai login
+API Platform
+API overview
+Developer docs
+Claude in Amazon Bedrock
+Claude on Google Cloud's Vertex AI
+Pricing
+Console login
+Research
+Research overview
+Economic Index
+Claude models
+Claude Opus 4
+Claude Sonnet 4
+Claude Haiku 3.5
+Commitments
+Transparency
+Responsible scaling policy
+Security and compliance
+Solutions
+AI agents
+Coding
+Customer support
+Education
+Financial services
+Learn
+Anthropic Academy
+Customer stories
+Engineering at Anthropic
+MCP Integrations
+Partner Directory
+Explore
+About us
+Become a partner
+Careers
+Events
+News
+Startups program
+Help and security
+Status
+Availability
+Support center
+Terms and policies
+Privacy choices
+Privacy policy
+Responsible disclosure policy
+Terms of service - consumer
+Terms of service - commercial
+Usage policy
+© 2025 Anthropic PBC
+
+## Абстрактивное резюме
+
+### Building a Multi-Agent Research System at Anthropic
+
+**Overview:**
+Anthropic developed a multi-agent research system leveraging multiple Claude agents to enhance complex topic exploration. This system, transitioning from prototype to production, provided valuable insights into system architecture, tool design, and prompt engineering.
+
+**Key Components:**
+1. **Multi-Agent Architecture:**
+   - **Lead Agent:** Plans the research process based on user queries.
+   - **Subagents:** Execute parallel searches, each focusing on different aspects of the query.
+   - **Orchestrator-Worker Pattern:** Ensures efficient coordination and task delegation.
+
+2. **Benefits:**
+   - **Flexibility:** Adapts dynamically to new findings, unlike linear pipelines.
+   - **Parallel Processing:** Subagents operate independently, enhancing efficiency and thoroughness.
+   - **Scalability:** Multi-agent systems outperform single-agent systems in breadth-first queries by 90.2%.
+
+3. **Challenges:**
+   - **Coordination Complexity:** Ensuring agents do not duplicate efforts or pursue irrelevant paths.
+   - **Token Usage:** Multi-agent systems consume significantly more tokens, necessitating high-value tasks for economic viability.
+   - **Error Handling:** Stateful agents require robust error management to avoid cascading failures.
+
+4. **Prompt Engineering:**
+   - **Detailed Task Descriptions:** Prevents duplication and ensures clear objectives.
+   - **Scaling Rules:** Allocates resources based on query complexity.
+   - **Tool Selection:** Critical for efficiency; agents need clear heuristics for tool usage.
+
+5. **Evaluation and Debugging:**
+   - **LLM-as-Judge:** Scalable evaluation using LLMs to assess output quality.
+   - **Human Evaluation:** Identifies edge cases and subtle biases.
+   - **Production Tracing:** Diagnoses failures and improves reliability.
+
+**Conclusion:**
+The multi-agent research system at Anthropic demonstrates significant potential for complex, open-ended research tasks. Despite challenges in coordination and token usage, the system's ability to dynamically adapt and parallelize tasks offers substantial performance improvements. Effective prompt engineering, robust evaluation methods, and careful deployment practices are essential for maintaining reliability and efficiency in production environments.
+
+## Метрики ROUGE
+
+| Метрика | Значение |
+|---|---|
+| ROUGE-1 | 0.2461 |
+| ROUGE-2 | 0.0671 |
+| ROUGE-L | 0.1017 |

@@ -1,0 +1,9 @@
+openai
+openai-agents
+python-dotenv
+nltk
+rouge-score
+pytest
+beautifulsoup4
+scikit-learn
+numpy
