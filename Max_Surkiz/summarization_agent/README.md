@@ -14,7 +14,6 @@ summarization_agent/
 │  ├─ evaluators/
 │  └─ utils/
 ├─ tests/
-├─ notebooks/
 ├─ data/raw/
 ├─ results/
 ├─ requirements.txt
