@@ -1,4 +1,4 @@
-# FirstName_LastName - AI Product Engineer Course
+# Tatiana_Petrova - AI Product Engineer Course
 
 ## About This Submission
 
