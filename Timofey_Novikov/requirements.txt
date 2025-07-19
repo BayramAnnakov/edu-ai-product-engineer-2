@@ -1,0 +1,38 @@
+# Core dependencies
+openai>=1.0.0
+nltk>=3.8.1
+pandas>=2.0.0
+streamlit>=1.28.0
+python-dotenv>=1.0.0
+
+# AppStore API integration
+requests>=2.31.0  # HTTP client for AppStore API
+aiohttp>=3.8.0    # Async HTTP client for better performance
+beautifulsoup4>=4.12.0  # HTML parsing if needed
+
+# OpenAI Agents SDK and advanced features
+# openai-agents-sdk>=0.1.0  # For agent orchestration (not available, using custom implementation)
+pydantic>=2.0.0  # For JSON schema validation
+jsonschema>=4.0.0  # For structured output validation
+
+# For enhanced analysis
+scikit-learn>=1.3.0
+numpy>=1.24.0
+textblob>=0.17.0  # Additional sentiment analysis
+
+# For web interface
+plotly>=5.15.0
+streamlit-plotly-events>=0.0.6  # Enhanced interactivity
+
+# Monitoring and logging
+structlog>=23.0.0  # Structured logging for agents
+prometheus-client>=0.16.0  # Metrics collection
+
+# Testing framework
+pytest>=7.0.0  # For TDD approach
+pytest-mock>=3.10.0  # For mocking in tests
+
+# Optional: Code quality tools
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.0.0  # Type checking for agent code

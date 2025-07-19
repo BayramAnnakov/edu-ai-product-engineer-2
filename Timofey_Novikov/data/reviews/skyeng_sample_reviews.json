@@ -1,0 +1,102 @@
+{
+    "metadata": {
+        "app_id": 1065290732,
+        "app_name": "Skyeng",
+        "app_version": "4.65.0",
+        "fetch_timestamp": "2025-01-19T10:30:00Z",
+        "total_reviews": 5,
+        "languages": ["en"],
+        "date_range": {
+            "from": "2025-01-15T00:00:00Z",
+            "to": "2025-01-19T23:59:59Z"
+        },
+        "fetcher_version": "1.0.0"
+    },
+    "reviews": [
+        {
+            "id": "skyeng_review_001",
+            "author": "EnglishLearner2024",
+            "rating": 5,
+            "title": "Excellent learning platform!",
+            "content": "Skyeng is an amazing English learning app! The teachers are professional and the lessons are well-structured. I love the interactive exercises and the flexibility to schedule lessons. My English has improved significantly in just 3 months. Highly recommend!",
+            "date": "2025-01-18T14:20:00Z",
+            "language": "en",
+            "version": "4.65.0",
+            "helpful_votes": 15,
+            "device": "iPhone",
+            "verified_purchase": true
+        },
+        {
+            "id": "skyeng_review_002", 
+            "author": "BusyStudent",
+            "rating": 2,
+            "title": "Technical issues lately",
+            "content": "I've been using Skyeng for 6 months but recent updates have caused problems. The app crashes during video lessons, audio quality is poor sometimes, and the homework system is buggy. The teachers are great but the technical problems are frustrating.",
+            "date": "2025-01-17T09:15:00Z",
+            "language": "en",
+            "version": "4.65.0", 
+            "helpful_votes": 32,
+            "device": "iPad",
+            "verified_purchase": true
+        },
+        {
+            "id": "skyeng_review_003",
+            "author": "WorkingProfessional",
+            "rating": 4,
+            "title": "Good platform with room for improvement",
+            "content": "The lesson quality is excellent and teachers are native speakers. I appreciate the flexible scheduling and business English courses. However, the app interface could be more intuitive and the price is quite high. Overall, it's effective for learning.",
+            "date": "2025-01-16T16:45:00Z",
+            "language": "en",
+            "version": "4.64.2",
+            "helpful_votes": 11,
+            "device": "Android",
+            "verified_purchase": true
+        },
+        {
+            "id": "skyeng_review_004",
+            "author": "ParentReview",
+            "rating": 3,
+            "title": "Mixed results for my teenager",
+            "content": "My 16-year-old has been using Skyeng for school preparation. Pros: qualified teachers, good materials, convenient online format. Cons: expensive subscription, some technical glitches, and not all teachers are equally engaging. Results are gradual but visible.",
+            "date": "2025-01-15T11:30:00Z",
+            "language": "en",
+            "version": "4.65.0",
+            "helpful_votes": 19,
+            "device": "iPhone",
+            "verified_purchase": true
+        },
+        {
+            "id": "skyeng_review_005",
+            "author": "DisappointedCustomer",
+            "rating": 1,
+            "title": "Overpriced and unreliable",
+            "content": "Very expensive for what you get! The app constantly has connectivity issues during lessons. Customer service is slow to respond. Some teachers canceled lessons last minute without proper notice. Would not recommend - there are better alternatives.",
+            "date": "2025-01-15T08:12:00Z",
+            "language": "en",
+            "version": "4.65.0",
+            "helpful_votes": 43,
+            "device": "iPhone",
+            "verified_purchase": true
+        }
+    ],
+    "statistics": {
+        "rating_distribution": {
+            "1": 1,
+            "2": 1, 
+            "3": 1,
+            "4": 1,
+            "5": 1
+        },
+        "average_rating": 3.0,
+        "total_helpful_votes": 155,
+        "language_distribution": {
+            "en": 5
+        },
+        "device_distribution": {
+            "iPhone": 3,
+            "Android": 1,
+            "iPad": 1
+        },
+        "verified_purchases": 4
+    }
+}
