@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Version {{ version }} Review Summary</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 1em; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        h2, h3 { color: #333; }
+        details { margin-top: 1em; }
+    </style>
+</head>
+<body>
+    <h2>Version {{ version }} — Share {{ "%.1f"|format(share_percentage) }}%</h2>
+
+    <table border="1">
+        <tr><th>Approach</th><th>ROUGE-L</th><th>Latency (ms)</th><th>Cost ($)</th></tr>
+        <tr><td>Extractive</td><td>{{ "%.2f"|format(rouge_l_extractive) }}</td><td>0</td><td>0.0000</td></tr>
+        <tr><td>Abstractive</td><td>{{ "%.2f"|format(rouge_l_abstractive) }}</td><td>{{ "%.0f"|format(latency_ms) }}</td><td>{{ "%.4f"|format(cost_usd) }}</td></tr>
+    </table>
+
+
+
+    <h3>Theme Distribution</h3>
+    <div class="grid">
+        <div>
+            <h4>Extractive (Keyword-based)</h4>
+            <ul>
+                {% for theme, perc in extractive_theme_distribution.items() %}
+                    <li><b>{{ theme }}</b>: {{ "%.1f"|format(perc) }}%</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <h4>Abstractive (LLM-based)</h4>
+            <ul>
+                {% for theme, perc in abstractive_theme_distribution.items() %}
+                    <li><b>{{ theme }}</b>: {{ "%.1f"|format(perc) }}%</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <h3>Extractive Summary</h3>
+    <p>{{ extractive_summary }}</p>
+    <ul>
+        {% for theme in extractive_themes %}
+            <li><b>{{ theme.name }}</b> – {{ theme.quote }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Abstractive Summary</h3>
+    <p>{{ abstractive_summary }}</p>
+    <ul>
+        {% for theme in abstractive_themes %}
+            <li><b>{{ theme.name }}</b> – {{ theme.quote }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if mini_summaries %}
+    <details>
+        <summary>Mini-Summaries ({{ mini_summaries|length }})</summary>
+        <ul>
+            {% for summary in mini_summaries %}
+                <li>{{ summary }}</li>
+            {% endfor %}
+        </ul>
+    </details>
+    {% endif %}
+</body>
+</html>

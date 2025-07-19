@@ -1,0 +1,33 @@
+####################################
+# 1. Environment variables / secrets
+####################################
+.env
+*.env
+
+####################################
+# 2. Python virtual environments
+####################################
+venv/
+.venv/
+
+####################################
+# 3. Python cache and byte-code
+####################################
+__pycache__/
+*.py[cod]
+*.pyo
+
+####################################
+# 4. OS & IDE noise
+####################################
+.DS_Store          # macOS finder files
+.idea/             # JetBrains IDE
+.vscode/           # VS Code settings
+*.swp              # Vim swap files
+
+####################################
+# 5. Auto-generated or heavy files
+####################################
+report.html
+*.log
+*.tmp
