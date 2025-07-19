@@ -5,9 +5,11 @@ Handles probabilistic analysis of app reviews with contextual insights
 
 import os
 import time
-from typing import Dict, Any, Optional
+import json
+from typing import Dict, Any, Optional, List
 from dotenv import load_dotenv
 import openai
+from openai import OpenAI
 
 # Load environment variables
 load_dotenv()
@@ -19,7 +21,7 @@ MAX_TOKENS = int(os.getenv("OPENAI_MAX_TOKENS", "1000"))
 TEMPERATURE = float(os.getenv("OPENAI_TEMPERATURE", "0.7"))
 
 # Initialize OpenAI client
-client = openai.OpenAI(api_key=OPENAI_API_KEY)
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Prompts for different analysis types
 ANALYSIS_PROMPT = """
@@ -68,7 +70,7 @@ def test_openai_connection() -> bool:
 
 def llm_analyze(review_text: str) -> Dict[str, Any]:
     """
-    Analyze review using OpenAI LLM
+    Analyze review using OpenAI LLM with improved Russian support
     
     Args:
         review_text: The review text to analyze
@@ -79,41 +81,81 @@ def llm_analyze(review_text: str) -> Dict[str, Any]:
     start_time = time.time()
     
     try:
-        # Create the analysis prompt
-        prompt = ANALYSIS_PROMPT.format(review_text=review_text)
+        # Create a more specific prompt for sentiment analysis
+        prompt = f"""
+        Проанализируй этот отзыв о приложении Skyeng и определи настроение пользователя.
+
+        Отзыв: "{review_text}"
+
+        Дай анализ в формате JSON:
+        {{
+            "sentiment": "Positive/Negative/Neutral",
+            "confidence": 0.8,
+            "reasoning": "краткое объяснение",
+            "key_points": ["основная проблема/достоинство"],
+            "issues": ["конкретные проблемы"] или [],
+            "positive_aspects": ["позитивные аспекты"] или []
+        }}
+
+        Отвечай ТОЛЬКО в JSON формате без дополнительного текста.
+        """
         
         # Call OpenAI API
         response = client.chat.completions.create(
             model=OPENAI_MODEL,
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=MAX_TOKENS,
-            temperature=TEMPERATURE
+            messages=[
+                {"role": "system", "content": "Ты эксперт по анализу отзывов на русском языке. Отвечай только в JSON формате."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=500,
+            temperature=0.1
         )
         
         # Extract response
-        analysis = response.choices[0].message.content.strip()
+        analysis_text = response.choices[0].message.content.strip()
         processing_time = time.time() - start_time
         
-        # Parse the structured response (simplified)
+        # Try to parse JSON response
+        try:
+            analysis_json = json.loads(analysis_text)
+            sentiment = analysis_json.get('sentiment', 'Mixed')
+            confidence = analysis_json.get('confidence', 0.5)
+            issues = analysis_json.get('issues', [])
+            positive_aspects = analysis_json.get('positive_aspects', [])
+            reasoning = analysis_json.get('reasoning', 'No reasoning provided')
+        except json.JSONDecodeError:
+            # Fallback sentiment extraction if JSON parsing fails
+            sentiment = _extract_sentiment_fallback(analysis_text, review_text)
+            confidence = 0.3
+            issues = []
+            positive_aspects = []
+            reasoning = "JSON parsing failed, used fallback method"
+        
         result = {
-            "analysis": analysis,
-            "insights": _extract_insights(analysis),
-            "sentiment": _extract_sentiment(analysis),
-            "features": _extract_features(analysis),
-            "issues": _extract_issues(analysis),
-            "recommendations": _extract_recommendations(analysis),
+            "sentiment": sentiment,
+            "confidence": confidence,
+            "analysis": analysis_text,
+            "reasoning": reasoning,
+            "issues": issues,
+            "positive_aspects": positive_aspects,
             "processing_time": round(processing_time, 2),
             "model_used": OPENAI_MODEL,
-            "tokens_used": response.usage.total_tokens if response.usage else 0
+            "tokens_used": response.usage.total_tokens if response.usage else 0,
+            "method": "llm_openai_improved"
         }
         
         return result
         
     except Exception as e:
+        # Use fallback sentiment analysis when API fails
+        fallback_sentiment = _analyze_review_sentiment_directly(review_text)
         return {
             "error": str(e),
+            "sentiment": fallback_sentiment,
             "processing_time": time.time() - start_time,
-            "model_used": OPENAI_MODEL
+            "model_used": OPENAI_MODEL,
+            "method": "llm_fallback_keywords",
+            "reasoning": "API failed, used keyword-based fallback"
         }
 
 
@@ -130,6 +172,47 @@ def _extract_insights(analysis: str) -> str:
                     insights_lines.append(lines[j].strip())
             return '\n'.join(insights_lines)
     return "No specific insights extracted"
+
+
+def _extract_sentiment_fallback(analysis: str, review_text: str) -> str:
+    """Fallback sentiment extraction when JSON parsing fails"""
+    
+    # Try to extract from analysis first
+    analysis_lower = analysis.lower()
+    
+    # Russian and English sentiment indicators
+    positive_indicators = ['positive', 'позитив', 'хорош', 'отлич', 'класс', 'супер', 'good', 'great', 'excellent']
+    negative_indicators = ['negative', 'негатив', 'плох', 'ужас', 'отстой', 'bad', 'terrible', 'awful']
+    
+    pos_count = sum(1 for word in positive_indicators if word in analysis_lower)
+    neg_count = sum(1 for word in negative_indicators if word in analysis_lower)
+    
+    if pos_count > neg_count:
+        return "Positive"
+    elif neg_count > pos_count:
+        return "Negative"
+    
+    # If analysis doesn't help, analyze the review text directly
+    return _analyze_review_sentiment_directly(review_text)
+
+
+def _analyze_review_sentiment_directly(review_text: str) -> str:
+    """Direct sentiment analysis of review text"""
+    text_lower = review_text.lower()
+    
+    # Russian sentiment keywords
+    positive_words = ['отлично', 'хорошо', 'прекрасно', 'удобно', 'нравится', 'люблю', 'классно', 'супер', 'замечательно', 'благодарность', 'спасибо', 'рекомендую']
+    negative_words = ['плохо', 'ужасно', 'отстой', 'проблема', 'ошибка', 'вылетает', 'тормозит', 'косячный', 'невозможно', 'разочарован', 'жалоба', 'навязчиво', 'думайте', 'неделями']
+    
+    pos_count = sum(1 for word in positive_words if word in text_lower)
+    neg_count = sum(1 for word in negative_words if word in text_lower)
+    
+    if pos_count > neg_count:
+        return "Positive"
+    elif neg_count > pos_count:
+        return "Negative"
+    else:
+        return "Neutral"
 
 
 def _extract_sentiment(analysis: str) -> str:
@@ -185,6 +268,89 @@ def _extract_recommendations(analysis: str) -> str:
             return '\n'.join(rec_lines)
     
     return "No specific recommendations provided"
+
+
+def generate_llm_summary(reviews: List[str]) -> Dict[str, Any]:
+    """Generate LLM-based summary of all reviews"""
+    
+    if not reviews:
+        return {'error': 'No reviews provided'}
+    
+    start_time = time.time()
+    
+    try:
+        # Prepare reviews text (limit to prevent token overflow)
+        reviews_text = "\n---\n".join(reviews[:15])  # Limit to 15 reviews
+        
+        prompt = f"""
+        Проанализируй все отзывы о приложении Skyeng и создай подробное резюме:
+
+        ОТЗЫВЫ:
+        {reviews_text}
+
+        Создай структурированный анализ в JSON формате:
+        {{
+            "general_sentiment": "общее настроение (positive/negative/mixed)",
+            "sentiment_distribution": {{
+                "positive_count": число,
+                "negative_count": число,
+                "neutral_count": число
+            }},
+            "main_themes": ["тема1", "тема2", "тема3"],
+            "top_issues": ["проблема1", "проблема2", "проблема3"],
+            "positive_highlights": ["плюс1", "плюс2", "плюс3"],
+            "key_insights": ["инсайт1", "инсайт2", "инсайт3"],
+            "summary_text": "подробное текстовое резюме на русском языке"
+        }}
+
+        Отвечай только в JSON формате без дополнительного текста.
+        """
+        
+        response = client.chat.completions.create(
+            model=OPENAI_MODEL,
+            messages=[
+                {"role": "system", "content": "Ты эксперт по анализу отзывов мобильных приложений. Отвечай только в JSON формате на русском языке."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.1,
+            max_tokens=1500
+        )
+        
+        response_content = response.choices[0].message.content
+        
+        try:
+            analysis_result = json.loads(response_content)
+        except json.JSONDecodeError:
+            # Fallback parsing
+            analysis_result = {
+                'general_sentiment': 'mixed',
+                'sentiment_distribution': {'positive_count': 0, 'negative_count': 0, 'neutral_count': len(reviews)},
+                'main_themes': ['интерфейс', 'производительность', 'функциональность'],
+                'top_issues': ['технические проблемы'],
+                'positive_highlights': ['удобство использования'],
+                'key_insights': ['необходимо улучшение'],
+                'summary_text': 'Анализ завершен с ошибкой парсинга JSON',
+                'raw_response': response_content
+            }
+        
+        processing_time = time.time() - start_time
+        
+        analysis_result.update({
+            'method': 'llm_summary',
+            'total_reviews_analyzed': len(reviews),
+            'processing_time': round(processing_time, 2),
+            'model_used': OPENAI_MODEL,
+            'tokens_used': response.usage.total_tokens if hasattr(response, 'usage') else 0
+        })
+        
+        return analysis_result
+        
+    except Exception as e:
+        return {
+            'error': str(e),
+            'processing_time': time.time() - start_time,
+            'method': 'llm_summary'
+        }
 
 
 def generate_executive_summary(analysis_results: Dict[str, Any]) -> str:

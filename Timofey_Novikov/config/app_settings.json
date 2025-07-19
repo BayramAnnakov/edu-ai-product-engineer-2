@@ -1,0 +1,121 @@
+{
+    "appstore": {
+        "target_app_id": 1065290732,
+        "app_name": "Skyeng",
+        "description": "English learning app for testing review analysis",
+        "data_sources": {
+            "reviews_per_fetch": 100,
+            "max_review_age_days": 90,
+            "min_review_length": 10,
+            "max_review_length": 5000,
+            "supported_languages": ["en", "ru", "es", "fr", "de"],
+            "rating_filter": {
+                "min_rating": 1,
+                "max_rating": 5,
+                "include_all_ratings": true
+            }
+        },
+        "api": {
+            "base_url": "https://itunes.apple.com/rss/customerreviews",
+            "endpoints": {
+                "reviews": "/page={page}/id={app_id}/sortby=mostrecent/json",
+                "app_info": "/lookup?id={app_id}&entity=software"
+            },
+            "rate_limit": {
+                "requests_per_minute": 100,
+                "retry_attempts": 3,
+                "backoff_factor": 2
+            }
+        },
+        "storage": {
+            "data_directory": "data/reviews",
+            "json_file_pattern": "{app_name}_{app_id}_reviews_{date}.json",
+            "backup_enabled": true,
+            "compression": false,
+            "max_file_size_mb": 50
+        }
+    },
+    "analysis": {
+        "deterministic": {
+            "enabled": true,
+            "modules": ["sentiment", "keywords", "topics", "statistics"],
+            "nltk_models": ["vader_lexicon", "punkt", "wordnet"],
+            "language_detection": true
+        },
+        "agents": {
+            "enabled": true,
+            "openai_model": "gpt-4.1",
+            "agents_config": {
+                "sentiment_agent": {
+                    "temperature": 0.1,
+                    "max_tokens": 500,
+                    "tools": ["sentiment_analyzer", "emotion_detector"]
+                },
+                "topic_agent": {
+                    "temperature": 0.2,
+                    "max_tokens": 800,
+                    "tools": ["topic_modeler", "category_classifier"]
+                },
+                "issue_agent": {
+                    "temperature": 0.1,
+                    "max_tokens": 1000,
+                    "tools": ["issue_detector", "priority_ranker", "solution_generator"]
+                },
+                "insights_agent": {
+                    "temperature": 0.7,
+                    "max_tokens": 1200,
+                    "tools": ["pattern_finder", "trend_analyzer", "hypothesis_generator"]
+                }
+            }
+        },
+        "processing": {
+            "parallel_processing": true,
+            "batch_size": 10,
+            "max_workers": 4,
+            "timeout_seconds": 120
+        }
+    },
+    "output": {
+        "reports": {
+            "formats": ["json", "markdown", "pdf"],
+            "output_directory": "reports/generated",
+            "template_directory": "reports/templates",
+            "include_raw_data": false
+        },
+        "metrics": {
+            "performance_tracking": true,
+            "cost_tracking": true,
+            "quality_scores": true
+        },
+        "visualization": {
+            "charts_enabled": true,
+            "chart_types": ["sentiment_distribution", "topic_trends", "issue_priority"],
+            "export_formats": ["png", "svg", "html"]
+        }
+    },
+    "monitoring": {
+        "logging": {
+            "level": "INFO",
+            "format": "structured",
+            "output_file": "logs/app.log",
+            "max_file_size_mb": 10,
+            "backup_count": 5
+        },
+        "metrics": {
+            "prometheus_enabled": false,
+            "custom_metrics": ["processing_time", "api_calls", "cost_tracking"]
+        }
+    },
+    "environment": {
+        "development": {
+            "debug_mode": true,
+            "mock_api_calls": false,
+            "sample_data_size": 50
+        },
+        "production": {
+            "debug_mode": false,
+            "error_notifications": true,
+            "performance_monitoring": true
+        }
+    }
+}

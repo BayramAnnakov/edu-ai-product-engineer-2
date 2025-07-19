@@ -11,9 +11,12 @@ import os
 from dotenv import load_dotenv
 
 # Import our analysis modules
-from src.analyzers.deterministic import deterministic_analyze
-from src.analyzers.llm_analyzer import llm_analyze
+from src.analyzers.deterministic import deterministic_analyze, generate_deterministic_summary
+from src.analyzers.llm_analyzer import llm_analyze, generate_llm_summary
+from src.analyzers.sentiment_comparison import compare_sentiment_methods
 from src.reports.report_generator import generate_pm_report, export_report_json
+from src.agents import AgentCoordinator
+from src.data.appstore_client import AppStoreClient
 
 # Load environment variables
 load_dotenv()
@@ -30,9 +33,13 @@ class ReviewAnalysisAgent:
         self.capabilities = [
             "deterministic_analysis",
             "llm_analysis", 
+            "openai_agents_coordination",
             "report_generation",
             "parallel_processing"
         ]
+        
+        # Initialize agent coordinator
+        self.agent_coordinator = AgentCoordinator()
         
         # Validate environment
         if not os.getenv("OPENAI_API_KEY"):
@@ -40,6 +47,7 @@ class ReviewAnalysisAgent:
         
         print(f"✅ {self.name} v{self.version} initialized")
         print(f"📋 Capabilities: {', '.join(self.capabilities)}")
+        print(f"🤖 Agent Coordinator: {len(self.agent_coordinator.agents)} specialized agents")
     
     def process_review(self, review_text: str, parallel: bool = True) -> Dict[str, Any]:
         """
@@ -63,11 +71,11 @@ class ReviewAnalysisAgent:
         start_time = time.time()
         
         if parallel:
-            # Run analyses in parallel
-            det_results, llm_results = self._parallel_analysis(review_text)
+            # Run analyses in parallel (including OpenAI agents)
+            det_results, llm_results, agent_results = self._parallel_analysis(review_text)
         else:
-            # Run analyses sequentially
-            det_results, llm_results = self._sequential_analysis(review_text)
+            # Run analyses sequentially (including OpenAI agents)
+            det_results, llm_results, agent_results = self._sequential_analysis(review_text)
         
         # Generate combined report
         try:
@@ -89,12 +97,14 @@ class ReviewAnalysisAgent:
             "review_text": review_text,
             "deterministic_results": det_results,
             "llm_results": llm_results,
+            "agent_results": agent_results,
             "pm_report": pm_report,
             "json_export": json_export,
             "performance": {
                 "total_processing_time": round(total_time, 2),
                 "deterministic_time": det_results.get('processing_time', 0),
                 "llm_time": llm_results.get('processing_time', 0),
+                "agent_time": agent_results.get('processing_time', 0),
                 "speed_advantage": self._calculate_speed_advantage(det_results, llm_results)
             },
             "timestamp": time.time()
@@ -104,18 +114,20 @@ class ReviewAnalysisAgent:
         return results
     
     def _parallel_analysis(self, review_text: str) -> tuple:
-        """Run both analyses in parallel using ThreadPoolExecutor"""
+        """Run all analyses in parallel using ThreadPoolExecutor"""
         
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            # Submit both tasks
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            # Submit all tasks
             det_future = executor.submit(deterministic_analyze, review_text)
             llm_future = executor.submit(llm_analyze, review_text)
+            agent_future = executor.submit(self.agent_coordinator.process_review, review_text)
             
-            # Wait for both to complete
+            # Wait for all to complete
             det_results = det_future.result()
             llm_results = llm_future.result()
+            agent_results = agent_future.result()
             
-            return det_results, llm_results
+            return det_results, llm_results, agent_results
     
     def _sequential_analysis(self, review_text: str) -> tuple:
         """Run analyses sequentially"""
@@ -126,7 +138,10 @@ class ReviewAnalysisAgent:
         print("🧠 Running LLM analysis...")
         llm_results = llm_analyze(review_text)
         
-        return det_results, llm_results
+        print("🤖 Running agent coordination...")
+        agent_results = self.agent_coordinator.process_review(review_text)
+        
+        return det_results, llm_results, agent_results
     
     def _calculate_speed_advantage(self, det_results: Dict[str, Any], llm_results: Dict[str, Any]) -> str:
         """Calculate speed advantage of deterministic vs LLM"""
@@ -178,10 +193,11 @@ class ReviewAnalysisAgent:
         if results:
             avg_det_time = sum(r['performance']['deterministic_time'] for r in results) / len(results)
             avg_llm_time = sum(r['performance']['llm_time'] for r in results) / len(results)
+            avg_agent_time = sum(r['performance']['agent_time'] for r in results) / len(results)
             total_det_time = sum(r['performance']['deterministic_time'] for r in results)
             total_llm_time = sum(r['performance']['llm_time'] for r in results)
         else:
-            avg_det_time = avg_llm_time = total_det_time = total_llm_time = 0
+            avg_det_time = avg_llm_time = avg_agent_time = total_det_time = total_llm_time = 0
         
         return {
             "batch_info": {
@@ -194,6 +210,7 @@ class ReviewAnalysisAgent:
                 "total_batch_time": round(total_time, 2),
                 "avg_deterministic_time": round(avg_det_time, 3),
                 "avg_llm_time": round(avg_llm_time, 2),
+                "avg_agent_time": round(avg_agent_time, 2),
                 "total_deterministic_time": round(total_det_time, 3),
                 "total_llm_time": round(total_llm_time, 2)
             },
@@ -217,66 +234,207 @@ class ReviewAnalysisAgent:
         }
 
 
-def main():
-    """Main function for testing the agent"""
+def load_real_reviews():
+    """Load real AppStore reviews for Skyeng app"""
     
-    print("🚀 Starting Review Analysis Agent...")
+    SKYENG_APP_ID = 1065290732
+    
+    print("🔄 Fetching real AppStore reviews for Skyeng...")
+    
+    try:
+        # Initialize AppStore client
+        client = AppStoreClient(SKYENG_APP_ID)
+        
+        # Fetch reviews
+        print("📱 Connecting to AppStore API...")
+        reviews = client.fetch_reviews(limit=20)
+        
+        if not reviews:
+            print("⚠️  No reviews fetched from API, using sample data...")
+            # Load sample reviews as fallback
+            try:
+                sample_reviews = client.load_reviews("data/reviews/skyeng_sample_reviews.json")
+                return [review['content'] for review in sample_reviews]
+            except:
+                return [
+                    "Great app! Easy to use and fast.",
+                    "Terrible experience. App crashes all the time.",
+                    "Good interface but needs more features.",
+                    "Love the design but performance is slow."
+                ]
+        
+        print(f"✅ Fetched {len(reviews)} real reviews")
+        
+        # Save to file with timestamp
+        from datetime import datetime
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output_file = f"data/reviews/skyeng_real_reviews_{timestamp}.json"
+        saved_file = client.save_reviews(reviews, output_file)
+        print(f"💾 Reviews saved to: {saved_file}")
+        
+        # Extract review content for analysis
+        review_texts = []
+        for review in reviews:
+            content = review.get('content', '').strip()
+            if content and len(content) > 10:  # Filter out very short reviews
+                review_texts.append(content)
+        
+        return review_texts[:15]  # Return up to 15 reviews for analysis
+        
+    except Exception as e:
+        print(f"❌ Error fetching reviews: {e}")
+        print("⚠️  Using sample data as fallback...")
+        return [
+            "Great app! Easy to use and fast.",
+            "Terrible experience. App crashes all the time.", 
+            "Good interface but needs more features.",
+            "Love the design but performance is slow."
+        ]
+
+
+def main():
+    """Main function - loads real reviews and analyzes them"""
+    
+    print("🚀 Starting Review Analysis Agent with Real Data...")
     
     try:
         # Initialize agent
         agent = ReviewAnalysisAgent()
         
-        # Test single review
-        sample_review = """
-        This app is amazing! The interface is so intuitive and easy to use. 
-        However, I've noticed that it crashes sometimes when I try to upload large files. 
-        The customer support is great though. Overall, I love this app but the crashing issue needs to be fixed.
-        """
+        # Load real AppStore reviews
+        print("\n" + "="*60)
+        print("📱 LOADING REAL APPSTORE REVIEWS")
+        print("="*60)
         
-        print("\n" + "="*50)
-        print("🧪 Testing Single Review Analysis")
-        print("="*50)
+        real_reviews = load_real_reviews()
         
-        results = agent.process_review(sample_review)
-        
-        if "error" in results:
-            print(f"❌ Error: {results['error']}")
+        if not real_reviews:
+            print("❌ No reviews to analyze")
             return
         
-        # Display results
-        print(f"📊 Processing completed in {results['performance']['total_processing_time']}s")
-        print(f"⚡ Speed advantage: {results['performance']['speed_advantage']}")
-        print(f"🎯 Deterministic sentiment: {results['deterministic_results'].get('sentiment', 'unknown')}")
-        print(f"🧠 LLM sentiment: {results['llm_results'].get('sentiment', 'unknown')}")
+        print(f"📊 Loaded {len(real_reviews)} reviews for analysis")
         
-        # Show part of the report
-        print("\n📋 PM Report Preview:")
-        print(results['pm_report'][:500] + "..." if len(results['pm_report']) > 500 else results['pm_report'])
+        # Show sample of loaded reviews
+        print("\n📝 Sample reviews:")
+        for i, review in enumerate(real_reviews[:3]):
+            print(f"  {i+1}. {review[:100]}...")
         
-        # Test batch processing
-        print("\n" + "="*50)
-        print("🔄 Testing Batch Processing")
-        print("="*50)
+        # Process all real reviews
+        print("\n" + "="*60)
+        print("🔄 ANALYZING REAL REVIEWS")
+        print("="*60)
         
-        sample_reviews = [
-            "Great app! Easy to use and fast.",
-            "Terrible experience. App crashes all the time.",
-            "Good interface but needs more features.",
-            "Love the design but performance is slow."
-        ]
+        batch_results = agent.batch_process(real_reviews, parallel=True)
         
-        batch_results = agent.batch_process(sample_reviews, parallel=True)
-        
-        print(f"📈 Batch Results:")
-        print(f"  - Total reviews: {batch_results['batch_info']['total_reviews']}")
+        # Display comprehensive results
+        print(f"\n📈 ANALYSIS RESULTS:")
+        print(f"  - Total reviews processed: {batch_results['batch_info']['total_reviews']}")
         print(f"  - Successful: {batch_results['batch_info']['successful']}")
         print(f"  - Failed: {batch_results['batch_info']['failed']}")
-        print(f"  - Total time: {batch_results['performance']['total_batch_time']}s")
+        print(f"  - Total processing time: {batch_results['performance']['total_batch_time']}s")
         print(f"  - Avg deterministic time: {batch_results['performance']['avg_deterministic_time']}s")
         print(f"  - Avg LLM time: {batch_results['performance']['avg_llm_time']}s")
         
+        # Generate summaries and comparisons
+        print("\n" + "="*60)
+        print("📋 GENERATING SUMMARIES AND COMPARISONS")
+        print("="*60)
+        
+        # Generate deterministic summary
+        print("🔢 Generating deterministic summary...")
+        det_summary = generate_deterministic_summary(real_reviews)
+        
+        # Generate LLM summary
+        print("🧠 Generating LLM summary...")
+        llm_summary = generate_llm_summary(real_reviews)
+        
+        # Compare sentiment methods
+        print("⚖️ Comparing sentiment analysis methods...")
+        sentiment_comparison = compare_sentiment_methods(batch_results['results'])
+        
+        # Generate and save final comprehensive report
+        successful_results = batch_results['results']
+        if successful_results:
+            # Save detailed report
+            from datetime import datetime
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            report_file = f"reports/generated/comprehensive_analysis_{timestamp}.md"
+            
+            # Create reports directory if it doesn't exist
+            os.makedirs("reports/generated", exist_ok=True)
+            
+            # Generate comprehensive report
+            with open(report_file, 'w', encoding='utf-8') as f:
+                f.write(f"# Skyeng AppStore Reviews - Comprehensive Analysis Report\n\n")
+                f.write(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write(f"**Total Reviews Analyzed:** {len(successful_results)}\n")
+                f.write(f"**Processing Time:** {batch_results['performance']['total_batch_time']}s\n\n")
+                
+                # Performance metrics
+                f.write("## ⚡ Performance Metrics\n\n")
+                f.write(f"- **Deterministic Analysis:** {batch_results['performance']['avg_deterministic_time']:.3f}s average\n")
+                f.write(f"- **LLM Analysis:** {batch_results['performance']['avg_llm_time']:.2f}s average\n")
+                f.write(f"- **Agent Analysis:** {batch_results['performance'].get('avg_agent_time', 0.0):.2f}s average\n")
+                f.write(f"- **Speed Advantage:** Deterministic is ~{batch_results['performance']['avg_llm_time']/batch_results['performance']['avg_deterministic_time']:.0f}x faster than LLM\n\n")
+                
+                # Deterministic summary
+                if 'error' not in det_summary:
+                    f.write("## 🔢 ДЕТЕРМИНИСТИЧЕСКИЙ АНАЛИЗ\n\n")
+                    f.write(f"{det_summary['summary_text']}\n\n")
+                
+                # LLM summary
+                if 'error' not in llm_summary:
+                    f.write("## 🧠 LLM АНАЛИЗ\n\n")
+                    f.write(f"**Общее настроение:** {llm_summary.get('general_sentiment', 'unknown')}\n\n")
+                    f.write(f"**Основные темы:** {', '.join(llm_summary.get('main_themes', []))}\n\n")
+                    f.write(f"**Главные проблемы:** {', '.join(llm_summary.get('top_issues', []))}\n\n")
+                    f.write(f"**Позитивные аспекты:** {', '.join(llm_summary.get('positive_highlights', []))}\n\n")
+                    f.write(f"**Резюме:** {llm_summary.get('summary_text', 'Не сгенерировано')}\n\n")
+                
+                # Sentiment comparison
+                if 'error' not in sentiment_comparison:
+                    f.write("## ⚖️ СРАВНЕНИЕ МЕТОДОВ АНАЛИЗА НАСТРОЕНИЙ\n\n")
+                    f.write(f"{sentiment_comparison['comparison_text']}\n\n")
+                    
+                    if sentiment_comparison['disagreements']:
+                        f.write("### Примеры расхождений:\n\n")
+                        for i, disagreement in enumerate(sentiment_comparison['disagreements'][:5]):
+                            f.write(f"**Отзыв {i+1}:** {disagreement['review_preview']}\n")
+                            f.write(f"- Детерминистический: {disagreement['deterministic']}\n")
+                            f.write(f"- LLM: {disagreement['llm']}\n")
+                            f.write(f"- Агенты: {disagreement['agent']}\n\n")
+                
+                # Individual review analysis (first 5)
+                f.write("## 📝 Детальный анализ отзывов (первые 5)\n\n")
+                for i, result in enumerate(successful_results[:5]):
+                    f.write(f"### Отзыв {i+1}\n\n")
+                    f.write(f"**Содержание:** {result['review_text'][:300]}...\n\n")
+                    f.write(f"**Детерминистический:** {result['deterministic_results'].get('sentiment', 'unknown')}\n")
+                    f.write(f"**LLM:** {result['llm_results'].get('sentiment', 'unknown')}\n")
+                    f.write(f"**Агенты:** {result['agent_results'].get('sentiment_analysis', {}).get('sentiment', 'unknown')}\n\n")
+                    f.write("---\n\n")
+            
+            print(f"✅ Comprehensive report saved to: {report_file}")
+            
+            # Display summary results
+            print(f"\n📊 SUMMARY RESULTS:")
+            if 'error' not in det_summary:
+                print(f"  📈 Deterministic: {det_summary['sentiment_percentages']['positive']:.1f}% positive, {det_summary['sentiment_percentages']['negative']:.1f}% negative")
+            
+            if 'error' not in llm_summary:
+                dist = llm_summary.get('sentiment_distribution', {})
+                total = sum(dist.values()) if dist else 1
+                pos_pct = (dist.get('positive_count', 0) / total) * 100 if total > 0 else 0
+                neg_pct = (dist.get('negative_count', 0) / total) * 100 if total > 0 else 0
+                print(f"  🧠 LLM: {pos_pct:.1f}% positive, {neg_pct:.1f}% negative")
+            
+            if 'error' not in sentiment_comparison:
+                print(f"  ⚖️ Agreement: {sentiment_comparison['agreement_metrics']['exact_agreement_percentage']:.1f}% exact match between all methods")
+            
+        print(f"\n🎉 Analysis complete! Check the generated report for detailed insights.")
+        
     except Exception as e:
-        print(f"❌ Agent initialization failed: {e}")
+        print(f"❌ Analysis failed: {e}")
         print("Please check your .env file and ensure OPENAI_API_KEY is set")
 
 
