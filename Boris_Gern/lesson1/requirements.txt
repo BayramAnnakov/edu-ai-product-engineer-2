@@ -1,0 +1,10 @@
+openai
+typer
+python-dotenv
+pandas
+summa
+scikit-learn
+sentence-transformers
+jinja2
+rouge-score
+numpy
