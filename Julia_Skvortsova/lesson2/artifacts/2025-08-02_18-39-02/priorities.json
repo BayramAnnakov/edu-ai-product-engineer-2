@@ -1,0 +1,5 @@
+[
+  "feature_id='F001' feature_description='Ability to reset or clear course progress to repeat material without creating a new account.' reach_percent=20.0 impact='Medium' confidence='Medium' effort_weeks=2.0 rice_score=16.0",
+  "feature_id='F019' feature_description='More gamification features and motivational tools, as well as the ability to add friends and compete.' reach_percent=20.0 impact='Medium' confidence='Medium' effort_weeks=4.0 rice_score=8.0",
+  "feature_id='F002' feature_description='In-app search by keywords within courses, covering all course content (excluding personal data).' reach_percent=10.0 impact='Medium' confidence='Medium' effort_weeks=3.0 rice_score=5.333333333333333"
+]

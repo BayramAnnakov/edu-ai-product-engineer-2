@@ -1,0 +1,89 @@
+product:
+  name: "Schengen 90/180 Calculator App"
+  description: |
+    A mobile app to automatically track Schengen visa days,
+    including support for multiple passports and maintaining historical data.
+
+hypotheses:
+  - id: "H1"
+    description: "Users struggle with manually tracking Schengen days"
+  - id: "H2"
+    description: "Users are willing to pay for automated tracking"
+  - id: "H3"
+    description: "Multiple passport support is critical feature"
+
+questions:
+  warmup:
+    - "Tell me about your travel patterns in Europe"
+    - "What challenges do you face with visa requirements?"
+  diverge:
+    - text: "What are your initial thoughts on a Schengen 90/180 Calculator App?"
+      covers: ["H1", "H2"]
+    - text: "How do you currently handle tracking your Schengen days?"
+      covers: ["H1"]
+    - text: "What features would you find most valuable in an automated solution?"
+      covers: ["H3"]
+    - text: "Would you be willing to pay for premium features? Why or why not?"
+      covers: ["H2"]
+  reflect:
+    - "Looking at the themes we've discussed, which ones resonate most with your experience?"
+    - "Are there any important aspects we haven't considered yet?"
+  converge:
+    - "Rank these features: automatic tracking, multiple passports, alerts"
+    - "What price point would make you hesitate?"
+  closure:
+    - "What would make you NOT use this app?"
+    - "How likely are you to recommend this to other travelers?"
+    - "What's the biggest risk or concern you see with this product that we haven't discussed?"
+
+personas:
+  - id: "julia"
+    name: "Julia"
+    background: |
+      29-year-old freelance designer who frequently travels between Spain and Germany.
+      Manual tracking of Schengen days is challenging and frustrating. Provides candid,
+      creative feedback and values aesthetics and user experience.
+    
+  - id: "raj"
+    name: "Raj"
+    background: |
+      35-year-old software developer and digital nomad based mostly in Lisbon.
+      Values automation to reduce repetitive tasks. Offers detailed and thoughtful
+      insights, particularly about technical features and data privacy.
+    
+  - id: "chloe"
+    name: "Chloe"
+    background: |
+      27-year-old content creator who travels extensively across EU countries.
+      Manual tracking is tedious for her. Shares honest opinions and suggests
+      features that would delight her. Very social media savvy.
+
+# Phase-specific configuration
+phase_config:
+  warmup:
+    max_follow_ups: 1
+  diverge:
+    max_follow_ups: 2
+  reflect:
+    share_raw_answers: false
+    share_synthesized_themes: true
+  converge:
+    force_tradeoffs: true
+    ranking_method: "points"
+    max_follow_ups: 1
+  closure:
+    max_follow_ups: 0  # No follow-ups in final phase
+
+# Explicit follow-up decision criteria
+followup_criteria:
+  min_word_count: 40  # Responses should be at least 40 words
+  min_themes_covered: 2  # Should cover at least 2 themes/aspects
+  min_sentiment_strength: 0.4  # Clear positive/negative stance
+  target_hypothesis_coverage: 0.8  # Aim for 80% hypothesis coverage
+  prioritize_uncovered: true  # Focus on uncovered hypotheses
+
+policy:
+  min_personas: 3
+  max_personas: 5
+  target_coverage: 0.8
+  allow_early_convergence: true

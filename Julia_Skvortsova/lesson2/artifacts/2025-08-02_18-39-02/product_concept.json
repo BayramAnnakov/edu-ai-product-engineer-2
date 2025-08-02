@@ -1,0 +1,39 @@
+{
+  "name": "CourseCraft",
+  "tagline": "Personalized, flexible learning paths with seamless progress and motivation.",
+  "description": "CourseCraft is a mobile-focused online learning platform that empowers users to repeat courses, track achievements, and connect with peers, all with intuitive controls and robust progress management. Designed for learners seeking structure, motivation, and flexibility, it delivers community features, progress resets, and advanced in-app searching to make continuous skill growth frictionless.",
+  "target_market": "Students and professionals in Russia seeking to change careers or upskill through affordable, structured online courses, especially those who prefer mobile learning and value gamification.",
+  "key_value_propositions": [
+    "Easy course progress reset lets users revisit material without extra accounts.",
+    "Integrated gamification and friend features foster daily motivation, competition, and peer support.",
+    "Powerful in-app search enables fast navigation and content discovery for efficient, targeted learning."
+  ],
+  "core_features": [
+    "Course progress reset functionality to restart or repeat material easily.",
+    "Gamification tools—badges, leaderboards, friend system, and competitive challenges.",
+    "Comprehensive in-app search within and across courses (excluding personal data) for keyword-based navigation."
+  ],
+  "hypotheses_to_test": [
+    {
+      "id": "H1",
+      "description": "Users will adopt and frequently use course progress reset to revisit and master content.",
+      "assumption": "Repeat learning is a high-frequency, high-value workflow for the majority of our user base."
+    },
+    {
+      "id": "H2",
+      "description": "Gamification and social competition features will increase daily active use and retention rates.",
+      "assumption": "Motivational tools and peer challenges drive higher engagement, particularly among competitive learners."
+    },
+    {
+      "id": "H3",
+      "description": "Advanced search within courses will reduce user frustration and increase lesson completion rates.",
+      "assumption": "Users will actively use and value granular content search to accelerate learning and troubleshoot knowledge gaps."
+    }
+  ],
+  "success_metrics": [
+    "Adoption and repeat usage rates for the progress reset feature.",
+    "Increases in daily active users, session length, and completion rates correlated with gamification/social tools.",
+    "Frequency of in-app search actions and reduction in support tickets related to content discovery.",
+    "Overall user satisfaction (CSAT/NPS), retention rates, and percentage of users progressing to paid or premium courses."
+  ]
+}

@@ -1,0 +1,97 @@
+product:
+  name: ReplayLearn
+  description: Course progress reset feature
+hypotheses:
+- id: H1
+  description: |-
+    Users will utilize the course progress reset feature when returning to previously paused or completed courses.
+- id: H2
+  description: |-
+    The reset feature will increase learner satisfaction and likelihood of course completion or repetition.
+- id: H3
+  description: |-
+    Providing a progress reset feature will offer a competitive advantage compared to platforms without such functionality.
+questions:
+  warmup:
+  - |-
+    Can you tell us about the last online course you took—how did you approach your study and what motivated you to complete (or pause) it?
+  - |-
+    Have you ever paused a course or wanted to review material from the beginning? What typically happens in those situations?
+  diverge:
+  - text: |-
+      Imagine you have the option to reset your progress in an online course whenever you want, starting again from scratch—what are your initial thoughts about this feature?
+    covers:
+    - H1
+    - H2
+    rationale: |-
+      This question explores user attitudes toward the reset concept, gauges natural reactions, and uncovers perceived value or drawbacks.
+  - text: |-
+      Can you describe scenarios where you would (or wouldn’t) want to use a course reset option? What would motivate your choice?
+    covers:
+    - H1
+    - H2
+    rationale: |-
+      This uncovers specific use cases and contexts, helping validate the assumption that learners find this feature relevant and actionable.
+  - text: |-
+      How does the idea of a course reset compare to what you’ve seen or used on other learning platforms?
+    covers:
+    - H3
+    rationale: |-
+      This investigates the competitive landscape and whether replay functionality is perceived as a valuable differentiator.
+  converge:
+  - |-
+    If you had to choose between revisiting old lessons one by one or doing a full course reset, which would you prefer, and why?
+  - |-
+    How much more likely would you be to repeat a course (for mastery or review) if starting over was just one click away?
+  - |-
+    Thinking of other platforms you’ve used, would the ability to reset progress make you prefer one over the others? Why or why not?
+  closure:
+  - |-
+    Is there anything about the course reset feature that would make you hesitate to use it or could cause frustration?
+  - |-
+    Based on what you’ve heard, how likely would you be to recommend a platform with this feature to a friend or classmate?
+  - |-
+    What, if anything, feels risky or unclear about the idea of letting users reset their progress? What would you want to know before using it?
+personas:
+- id: nastya
+  name: Anastasia Moroz
+  background: |
+    21-year-old 3rd-year economics student in Novosibirsk. Studies on mobile during commutes and evenings,
+    prefers self-paced courses with practice. Wants certificates to add to her CV. Price sensitive; buys on
+    discounts. Uses wishlist for price drops.
+- id: svetlana
+  name: Svetlana Orlova
+  background: |
+    33-year-old accountant in Samara planning a switch to analytics. Seeks beginner-friendly, structured
+    paths and relies on recommendations and open lessons to trial before paying. Needs flexible pacing
+    and clear progress signals.
+- id: nikita
+  name: Nikita Orlov
+  background: |-
+    19-year-old first-year CS student in Perm. Competitive, studies almost every day and proudly keeps
+    a long learning streak. Races peers on the knowledge leaderboard and seeks challenging tasks to
+    keep climbing. Shares badges and milestones in class chats.
+# Phase-specific configuration
+phase_config:
+  warmup:
+    max_follow_ups: 1
+  diverge:
+    max_follow_ups: 2
+  converge:
+    force_tradeoffs: true
+    ranking_method: points
+    max_follow_ups: 1
+  closure:
+    max_follow_ups: 0
+# Explicit follow-up decision criteria
+followup_criteria:
+  min_word_count: 40  # Responses should be at least 40 words
+  min_themes_covered: 2  # Should cover at least 2 themes/aspects
+  min_sentiment_strength: 0.4  # Clear positive/negative stance
+  target_hypothesis_coverage: 0.8  # Aim for 80% hypothesis coverage
+  prioritize_uncovered: true  # Focus on uncovered hypotheses
+policy:
+  min_personas: 3
+  max_personas: 5
+  target_coverage: 0.8
+  allow_early_convergence: true

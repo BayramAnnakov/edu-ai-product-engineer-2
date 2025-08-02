@@ -1,0 +1,75 @@
+```mermaid
+
+flowchart TB
+  %% Swimlanes implemented as subgraphs
+  %% Direction Top->Bottom for readability
+  %% PHASE 0 – PREP & GUARDRAILS
+  subgraph F["Facilitator"]
+    F0["Define product idea & hypotheses"]
+    F1["Create Hypothesis Coverage Matrix"]
+    F2["Draft main & backup questions"]
+    F3["Introduce product idea (later in Phase 2)"]
+    F8["Issue theme-based follow-ups to selected personas"]
+    F12["Run trade-off / prioritization tasks"]
+    F15["Red-team prompt & intention checks"]
+    F17["Close session & debrief to team"]
+  end
+
+  subgraph A["Analyst (LLM/Script)"]
+    A0["Design tagging schema (needs, pains, sentiment, confidence)"]
+    A4["Cluster initial needs/themes from warm-up answers"]
+    A7["Cluster answers to main Qs; find gaps/conflicts"]
+    A9["Suggest targeted probes & note uncovered hypotheses"]
+    A13["Score/aggregate quantitative scales"]
+    A16["Real-time coverage check: all hypotheses addressed?"]
+    A18["Produce final synthesized insight set"]
+  end
+
+  subgraph Q["QA / Moderator"]
+    Q0["Set guardrails: bias, redundancy, persona drift rules"]
+    Q5["Monitor tone & consistency; re-prompt drifting personas"]
+    Q10["Flag repetitive or leading questions"]
+    Q14["Validate that decisions align with predefined exit criteria"]
+  end
+
+  subgraph P["Persona Agents (Users)"]
+    P1["Warm-up: respond to neutral calibration prompts"]
+    P6["Answer main question batch (in parallel)"]
+    P11["React to synthesized peer themes (group reflection)"]
+    P13["Complete ranking / willingness-to-pay tasks"]
+    P15["Attack the idea (red-team) & give adoption intent"]
+  end
+
+  subgraph S["System/Automation Orchestrator"]
+    S2["Route prompts, collect answers"]
+    S3["Store raw data (JSON/db)"]
+    S8["Trigger selective follow-ups"]
+    S19["Export transcripts, tagged data"]
+  end
+
+  %% Flows across lanes and phases
+  F0 --> F1 --> F2 -->|Share schema & rules| A0
+  F2 --> Q0
+  Q0 --> S2
+  %% Calibration / Warm-up
+  S2 --> P1 --> A4
+  Q5 -.-> P1
+  %% Phase 2 Concept Reveal & Main Qs
+  F3 --> S2 --> P6 --> S3
+  P6 --> A7 --> A9 --> F8
+  Q10 -.-> F8
+  F8 --> S8 --> P6
+  %% Phase 3 Converge
+  F12 --> S2 --> P13 --> A13
+  %% Group Reflection
+  A7 --> F12
+  A7 --> F3
+  A7 --> P11
+  P11 --> A7
+  %% Meta & Closure
+  F15 --> S2 --> P15 --> A13
+  A13 --> A16 --> Q14
+  A16 --> F17
+  F17 --> A18 --> S19
+
+  ```

@@ -1,0 +1,10 @@
+[
+  "feature_id='F001' feature_description='Ability to reset or clear course progress to repeat material' reach_percent=75.0 impact='High' confidence='Medium' effort_weeks=2.0 rice_score=90.0",
+  "feature_id='F007' feature_description='Improve code editor: fix lagging, add autocomplete, improve tabulation' reach_percent=60.0 impact='High' confidence='High' effort_weeks=2.0 rice_score=90.0",
+  "feature_id='F014' feature_description='Update and expand the selection of courses and topics, especially in the new courses tab' reach_percent=80.0 impact='High' confidence='High' effort_weeks=3.0 rice_score=80.0",
+  "feature_id='F009' feature_description='Add more options to adjust playback speed and seek time in video player' reach_percent=35.0 impact='Medium' confidence='High' effort_weeks=1.0 rice_score=70.0",
+  "feature_id='F003' feature_description='Offline access to paid videos and ability to take tests offline' reach_percent=50.0 impact='High' confidence='Medium' effort_weeks=4.0 rice_score=30.0",
+  "feature_id='F006' feature_description='Add threaded comments (comment branches) and ability to hide/show answers in discussions' reach_percent=40.0 impact='Medium' confidence='Medium' effort_weeks=3.0 rice_score=21.333333333333332",
+  "feature_id='F002' feature_description='Add search functionality within a course by keywords' reach_percent=30.0 impact='Medium' confidence='Medium' effort_weeks=3.0 rice_score=16.0",
+  "feature_id='F012' feature_description='Add more gamification and social features (add friends, knowledge competitions, more motivators)' reach_percent=40.0 impact='Medium' confidence='Medium' effort_weeks=4.0 rice_score=16.0"
+]
