@@ -1,0 +1,33 @@
+{
+  "warmup": [
+    "Can you tell us about a recent experience where you tried to learn or practice a new skill—especially on your phone or while offline?",
+    "What are the biggest frustrations or obstacles you currently face when using online learning platforms for coding or self-improvement?"
+  ],
+  "diverge": [
+    {
+      "text": "Looking at the ReplayLearn concept—with features like course progress reset, a high-performance code editor, and full offline access—what stands out to you as most appealing or surprising? Why?",
+      "covers": [
+        "H1",
+        "H2"
+      ],
+      "rationale": "This question explores initial reactions to the core value propositions, revealing whether the highlighted features address real needs and if they could drive adoption or willingness to pay."
+    },
+    {
+      "text": "How do you think ReplayLearn’s combination of repeatable progress, advanced coding tools, and offline access compares to other platforms you’ve used or considered?",
+      "covers": [
+        "H3"
+      ],
+      "rationale": "This question assesses perceived differentiation and competitive advantage, helping determine if the unique feature set is compelling compared to alternatives."
+    }
+  ],
+  "converge": [
+    "If you had to choose, which ReplayLearn feature—progress reset, advanced code editor, or full offline access—would be most important for your learning goals? Why?",
+    "Based on what you’ve heard, how likely would you be to pay for ReplayLearn’s premium features? What would make it worth the cost for you?",
+    "Thinking about your current learning tools, what would make you switch to ReplayLearn or recommend it to a friend?"
+  ],
+  "closure": [
+    "Are there any aspects of ReplayLearn that would prevent you from using it, even if other features were appealing?",
+    "How likely are you to recommend ReplayLearn to someone with similar learning needs? What would influence your recommendation?",
+    "What’s the biggest risk or unknown you see with ReplayLearn that would make you hesitate to use or invest time in it?"
+  ]
+}

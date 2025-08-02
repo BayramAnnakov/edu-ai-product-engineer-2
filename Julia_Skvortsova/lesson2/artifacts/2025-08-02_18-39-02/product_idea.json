@@ -1,0 +1,29 @@
+{
+  "name": "CourseCraft",
+  "description": "CourseCraft is a mobile-focused online learning platform that empowers users to repeat courses, track achievements, and connect with peers, all with intuitive controls and robust progress management. Designed for learners seeking structure, motivation, and flexibility, it delivers community features, progress resets, and advanced in-app searching to make continuous skill growth frictionless.",
+  "one_sentence_description": "Personalized, flexible learning paths with seamless progress and motivation.",
+  "target_personas": [
+    "Svetlana Orlova",
+    "Nikita Orlov",
+    "Anastasia Moroz"
+  ],
+  "key_features": [
+    "Course progress reset functionality to restart or repeat material easily.",
+    "Gamification tools—badges, leaderboards, friend system, and competitive challenges.",
+    "Comprehensive in-app search within and across courses (excluding personal data) for keyword-based navigation."
+  ],
+  "hypotheses": [
+    {
+      "id": "H1",
+      "description": "Users will adopt and frequently use course progress reset to revisit and master content."
+    },
+    {
+      "id": "H2",
+      "description": "Gamification and social competition features will increase daily active use and retention rates."
+    },
+    {
+      "id": "H3",
+      "description": "Advanced search within courses will reduce user frustration and increase lesson completion rates."
+    }
+  ]
+}

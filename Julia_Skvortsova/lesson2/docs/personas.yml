@@ -1,0 +1,153 @@
+teachers:
+  # Independent course entrepreneurs: solo instructors monetizing audiences with hands-on, auto-graded courses
+  - id: "mikhail"
+    name: "Mikhail Petrov"
+    background: |
+      34-year-old independent CS instructor in Saint Petersburg. Has an audience on YouTube and Telegram
+      and wants to convert followers into a paid Python course with hands-on programming tasks and
+      auto-grading. Cares about margins, promo tools, and fast iteration on content.
+
+  # Experts: industry professionals creating courses to share expertise and build authority
+  - id: "irina"
+    name: "Irina Volkova"
+    background: |
+      35-year-old data scientist at a leading tech company. Wants to create a course on advanced ML techniques
+      to establish thought leadership and share knowledge with peers. Values high-quality content and industry
+      relevance.
+
+  # Bootcamp operators: instructors running intensive cohorts with hands-on projects and external grading
+  - id: "dmitry"
+    name: "Dmitry Kiselev"
+    background: |
+      32-year-old bootcamp operator running data analytics cohorts. Needs timed exams, external graders,
+      and data/SQL tasks; mixes open modules for marketing with a paid capstone. Wants strong reporting
+      and announcements.
+
+  # University instructors: academics creating courses for students with LMS integration and academic integrity
+  # Academic program leads: university teams publishing open MOOCs with certificates and LTI
+  - id: "alina"
+    name: "Alina Sokolova"
+    background: |
+      41-year-old MOOC coordinator at a regional university. Needs a self-paced open course with auto-
+      graded tasks, certificates, and occasional LTI integration with the campus LMS. Sensitive to license,
+      academic integrity, and instructor workload.
+
+  # Corporate trainers: in-house instructors creating courses for internal teams with compliance and reporting needs
+  - id: "sergey"
+    name: "Sergey Ivanov"
+    background: |
+      38-year-old L&D lead at a mid-size fintech. Needs a platform to run internal training, skills testing,
+      and track progress, with invoice payment and reporting. Prefers asynchronous modules plus timed
+      exams for compliance topics.
+
+learners:
+  # Credential seekers
+  - id: "nastya"
+    name: "Anastasia Moroz"
+    background: |
+      21-year-old 3rd-year economics student in Novosibirsk. Studies on mobile during commutes and evenings,
+      prefers self-paced courses with practice. Wants certificates to add to her CV. Price sensitive; buys on
+      discounts. Uses wishlist for price drops.
+
+  # Professional upskillers (tech)
+  - id: "igor"
+    name: "Igor Lebedev"
+    background: |
+      29-year-old backend developer in Kazan seeking ML/DS upskilling for career growth. Studies late at
+      night, values hands-on programming and data tasks with instant feedback, and wants certificates to
+      display on profile.
+
+  # Work-driven upskilling
+  - id: "alexei"
+    name: "Alexei Voronin"
+    background: |
+      31-year-old backend engineer in Kazan. Company is migrating services to Kotlin + Ktor and Docker.
+      Needs fast, applied practice on new libraries (coroutines, SQL drivers, Gradle) to ship features and
+      qualify for a senior role this quarter.
+
+  - id: "elena"
+    name: "Elena Petrova"
+    background: |
+      28-year-old data analyst in Saint Petersburg. Team adopted dbt + BigQuery with versioned datasets.
+      Must learn modeling, tests, and documentation to lead a KPI revamp and reach senior analyst track.
+  
+  - id: "roman"
+    name: "Roman Belov"
+    background: |
+      32-year-old QA engineer in Moscow. Org is standardizing on Playwright + GitHub Actions. Needs to
+      replace Selenium suites, reduce flakiness, and mentor juniors to qualify for a tech lead role.
+
+  - id: "daria"
+    name: "Daria Smirnova"
+    background: |
+      27-year-old software engineer in Yekaterinburg learning English (B1→B2) to work with foreign customers.
+      Studies 20–30 minutes nightly on mobile, focuses on vocabulary, listening, and practical phrases.
+      Wants visible progress, pronunciation guidance, and confidence for calls.
+
+  # Cautious career switchers
+  - id: "svetlana"
+    name: "Svetlana Orlova"
+    background: |
+      33-year-old accountant in Samara planning a switch to analytics. Seeks beginner-friendly, structured
+      paths and relies on recommendations and open lessons to trial before paying. Needs flexible pacing
+      and clear progress signals.
+
+  - id: "alex"
+    name: "Alexei Smirnov"
+    background: |
+      30-year-old IT support engineer looking to transition into data science. Needs hands-on projects,
+      mentorship, community support and job placement assistance. Values practical skills over theoretical knowledge.
+  
+  # Test-prep youth
+  - id: "pavel"
+    name: "Pavel Grigoriev"
+    background: |
+      17-year-old high schooler preparing for CS olympiads and university entrance. Wants lots of graded
+      practice and fast feedback; studies in bursts on mobile and desktop. Motivated by streaks and
+      ratings.
+
+  - id: "artyom"
+    name: "Artyom Kuznetsov"
+    background: |
+      16-year-old high school student in Tula preparing for the Unified State Exam (EGE) in Russian.
+      Studies in focused bursts after school, wants lots of auto-checked practice, essay structure tips,
+      and mock exams with timers.
+  
+  # Students completing mandatory courses
+  - id: "maksim"
+    name: "Maksim Pavlov"
+    background: |
+      20-year-old 2nd-year CS student in Tomsk whose instructor assigned a mandatory online course.
+      Joins via a direct link from LMS/teacher chat. Cares about clear deadlines, reminders, and that
+      grades sync back without extra uploads.
+
+  # Corporate completers: employees completing assigned training efficiently with proof
+  - id: "olga"
+    name: "Olga Sidorova"
+    background: |
+      36-year-old customer success specialist required to pass internal compliance courses hosted on
+      Stepik. Prefers asynchronous study, relies on author announcements and reminders, and needs
+      certificates as proof of completion for HR.
+
+  # Hobbyists and lifelong learners: adults learning for enjoyment and growth with flexible, low-pressure study
+  - id: "dmitry_hobby"
+    name: "Dmitry Petrov"
+    background: |
+      25-year-old graphic designer in Yekaterinburg learning Python for fun. Enjoys interactive
+      courses with creative projects and instant feedback. Values community interaction and sharing
+      work with peers. Not focused on certificates or career outcomes.
+
+  - id: "marina"
+    name: "Marina Volkova"
+    background: |
+      28-year-old marketing manager in Nizhny Novgorod who learns for joy and personal growth.
+      Dabbles in photography, psychology, and language basics. Studies in short evening sessions on
+      mobile and tablet, bookmarking interesting lessons for weekends.
+
+  # Leaderboard competitors: competitive achievers focused on knowledge and skill mastery, streak-maximizers
+  - id: "nikita"
+    name: "Nikita Orlov"
+    background: |
+      19-year-old first-year CS student in Perm. Competitive, studies almost every day and proudly keeps
+      a long learning streak. Races peers on the knowledge leaderboard and seeks challenging tasks to
+      keep climbing. Shares badges and milestones in class chats.

@@ -1,0 +1,38 @@
+{
+  "name": "ReplayLearn",
+  "tagline": "Master skills your way—reset, code, and learn anywhere.",
+  "description": "ReplayLearn is a flexible online learning platform designed for modern learners who want to master skills at their own pace. It empowers users to reset course progress, enjoy a robust coding experience, and access learning materials fully offline. By addressing key user pain points, ReplayLearn ensures a seamless, motivating, and accessible learning journey.",
+  "target_market": "Mobile learners, motivated self-improvers, and practical programmers seeking flexible, repeatable, and high-quality learning experiences.",
+  "key_value_propositions": [
+    "Repeat and reinforce learning with one-click course progress reset.",
+    "Seamless, high-performance coding experience with advanced editor features.",
+    "Full offline access to all course materials, including videos and tests."
+  ],
+  "core_features": [
+    "Course Progress Reset: Easily clear and restart any course to reinforce knowledge or prepare for new challenges.",
+    "Enhanced Code Editor: Fast, lag-free editor with autocomplete and improved tabulation for both mobile and desktop users.",
+    "Complete Offline Mode: Download all course content—including paid videos and interactive tests—for uninterrupted learning anywhere."
+  ],
+  "hypotheses_to_test": [
+    {
+      "id": "H1",
+      "description": "Users will adopt this solution because it directly addresses their most requested features (progress reset, improved code editor, offline access).",
+      "assumption": "Addressing these pain points will lead to increased engagement and repeat usage."
+    },
+    {
+      "id": "H2",
+      "description": "Users will pay for this because full offline access and advanced coding tools provide tangible value over free alternatives.",
+      "assumption": "Enhanced features and convenience will justify subscription or one-time payments."
+    },
+    {
+      "id": "H3",
+      "description": "This solution is better than alternatives because it uniquely combines flexible progress management, superior code editing, and true offline capability.",
+      "assumption": "Competitors lack this combination of repeatability, technical quality, and accessibility."
+    }
+  ],
+  "success_metrics": [
+    "Adoption: Percentage of active users utilizing course reset, offline mode, and improved code editor within 30 days.",
+    "Value Delivery: Increase in course completion rates and repeat course enrollments.",
+    "Market Fit: Net Promoter Score (NPS) and user retention rates compared to previous platform versions."
+  ]
+}
