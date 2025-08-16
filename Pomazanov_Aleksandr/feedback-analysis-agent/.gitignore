@@ -1,0 +1,43 @@
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Data files (exclude actual user data)
+data/*.csv
+data/*.json
+data/*.txt
+data/*.xlsx
+!data/README.md
+
+# Output files
+output/
+*.log
+*_analysis_report*.json
+reports/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp

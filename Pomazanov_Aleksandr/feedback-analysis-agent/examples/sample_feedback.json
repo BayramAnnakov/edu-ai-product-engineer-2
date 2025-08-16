@@ -1,0 +1,52 @@
+[
+  {
+    "text": "The app crashes every time I try to upload a photo. Very frustrating!",
+    "user_id": "user_1",
+    "timestamp": "2024-01-01"
+  },
+  {
+    "text": "Love the new interface design, much cleaner and easier to use.",
+    "user_id": "user_2",
+    "timestamp": "2024-01-01"
+  },
+  {
+    "text": "Loading times are really slow, especially on mobile devices.",
+    "user_id": "user_3",
+    "timestamp": "2024-01-01"
+  },
+  {
+    "text": "Would be great to have a dark mode option for night usage.",
+    "user_id": "user_4",
+    "timestamp": "2024-01-01"
+  },
+  {
+    "text": "The search function doesn't work properly, can't find anything.",
+    "user_id": "user_5",
+    "timestamp": "2024-01-01"
+  },
+  {
+    "text": "Excellent customer support, resolved my issue quickly.",
+    "user_id": "user_6",
+    "timestamp": "2024-01-01"
+  },
+  {
+    "text": "App is buggy and freezes frequently. Needs serious fixes.",
+    "user_id": "user_7",
+    "timestamp": "2024-01-01"
+  },
+  {
+    "text": "Great features overall, but could use better navigation.",
+    "user_id": "user_8",
+    "timestamp": "2024-01-01"
+  },
+  {
+    "text": "Performance has improved significantly after the last update.",
+    "user_id": "user_9",
+    "timestamp": "2024-01-01"
+  },
+  {
+    "text": "Missing important features compared to competitors.",
+    "user_id": "user_10",
+    "timestamp": "2024-01-01"
+  }
+]
