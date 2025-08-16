@@ -1,0 +1,1 @@
+Log changes in @docs/CHANGELOG.md and update all project documentation accordingly (README.md, architecture.md, CLAUDE.md)

@@ -1,0 +1,226 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: pm_agent
+      POSTGRES_USER: agent
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secure_password}
+      # Create multiple databases
+      POSTGRES_MULTIPLE_DATABASES: pm_agent,langfuse
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agent -d pm_agent"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  langfuse:
+    image: langfuse/langfuse:2
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Database connection - using same postgres instance
+      DATABASE_URL: postgresql://agent:${DB_PASSWORD:-secure_password}@postgres:5432/langfuse
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: ${LANGFUSE_NEXTAUTH_SECRET:-your-secret-key-at-least-32-chars-long}
+      SALT: ${LANGFUSE_SALT:-your-salt-at-least-32-chars-long}
+      # Disable telemetry
+      TELEMETRY_ENABLED: false
+      # Auth settings
+      AUTH_DISABLE_SIGNUP: false
+      # Langfuse settings
+      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: true
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - app-network
+
+  app:
+    build: ./app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      langfuse:
+        condition: service_started
+    environment:
+      # Database
+      DATABASE_URL: postgresql+asyncpg://agent:${DB_PASSWORD:-secure_password}@postgres:5432/pm_agent
+      # OpenAI
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      # Langfuse
+      LANGFUSE_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY:-pk-lf-aea7cc2f-c354-4c4d-84cd-570bda1d514d}
+      LANGFUSE_SECRET_KEY: ${LANGFUSE_SECRET_KEY:-sk-lf-56ca6b19-f05d-43c8-9349-749c7b082ac8}
+      LANGFUSE_HOST: http://langfuse:3000
+      # OpenTelemetry / Logfire
+      OTEL_SERVICE_NAME: pm_agent_service
+      OTEL_RESOURCE_ATTRIBUTES: service.name=pm_agent_service
+      # YouTrack
+      YOUTRACK_BASE_URL: ${YOUTRACK_BASE_URL}
+      YOUTRACK_TOKEN: ${YOUTRACK_TOKEN}
+      # Slack
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
+      # SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+      # Debug
+      DEBUG: ${DEBUG:-false}
+    volumes:
+      - ./app:/app
+      - ./data:/data
+    networks:
+      - app-network
+    command: >
+      sh -c "
+        echo 'Waiting for database...' &&
+        sleep 5 &&
+        alembic upgrade head &&
+        python -m src.main
+      "
+
+  approval_worker:
+    build: ./app
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      langfuse:
+        condition: service_started
+    environment:
+      # Same environment as main app
+      DATABASE_URL: postgresql+asyncpg://agent:${DB_PASSWORD:-secure_password}@postgres:5432/pm_agent
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      LANGFUSE_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY:-pk-lf-aea7cc2f-c354-4c4d-84cd-570bda1d514d}
+      LANGFUSE_SECRET_KEY: ${LANGFUSE_SECRET_KEY:-sk-lf-56ca6b19-f05d-43c8-9349-749c7b082ac8}
+      LANGFUSE_HOST: http://langfuse:3000
+      YOUTRACK_BASE_URL: ${YOUTRACK_BASE_URL}
+      YOUTRACK_TOKEN: ${YOUTRACK_TOKEN}
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
+      DEBUG: ${DEBUG:-false}
+    volumes:
+      - ./app:/app
+      - ./data:/data
+      - ./slack_service:/slack_service
+    networks:
+      - app-network
+    command: python -m src.run_worker
+    deploy:
+      replicas: 1  # 2: Run 2 workers for redundancy
+    restart: unless-stopped
+
+  slack_approvals:
+    build: ./app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://agent:${DB_PASSWORD:-secure_password}@postgres:5432/pm_agent
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
+      PYTHONPATH: /app/src
+    volumes:
+      - ./app:/app
+    networks:
+      - app-network
+    working_dir: /app
+    command: python slack_service/app.py
+    restart: unless-stopped
+
+  mcp_youtrack:
+    build: ./mcp_youtrack
+    environment:
+      YOUTRACK_BASE_URL: ${YOUTRACK_BASE_URL}
+      YOUTRACK_TOKEN: ${YOUTRACK_TOKEN}
+      YOUTRACK_DEFAULT_PROJECT: ${YOUTRACK_DEFAULT_PROJECT:-INT}
+      # Rate limiting configuration (optional)
+      YOUTRACK_RATE_LIMIT_REQUESTS: ${YOUTRACK_RATE_LIMIT_REQUESTS:-100}  # requests per minute
+    # Use HTTP transport for Docker deployment
+    command: [".venv/bin/python", "youtrack_server_http.py"]
+    ports:
+      - "8002:8002"
+    networks:
+      - app-network
+    restart: unless-stopped
+    # HTTP transport health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/mcp/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# The official filesystem server is intended to be launched as a local subprocess 
+# (e.g., npx ... or Docker with -i), which is the MCP stdio transport.
+# This particular package doesn’t ship an HTTP mode.
+
+#  mcp_filesystem:
+#    image: node:20-alpine
+#    working_dir: /app
+#    command: >
+#      sh -c "
+#        npm install -g @modelcontextprotocol/server-filesystem &&
+#        npx @modelcontextprotocol/server-filesystem /data
+#      "
+#    volumes:
+#      - ./data:/data
+#    networks:
+#      - app-network
+#    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@admin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./pgadmin-servers.json:/pgadmin4/servers.json:ro
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+  redis_data:
+
+networks:
+  app-network:
+    driver: bridge

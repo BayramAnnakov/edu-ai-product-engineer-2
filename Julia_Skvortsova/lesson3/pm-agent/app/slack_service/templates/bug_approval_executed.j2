@@ -1,0 +1,53 @@
+{
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "🎉 Approved Action Completed"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Originally approved by:* <@{{ approved_by }}>\n*Executed at:* {{ executed_at | strftime('%Y-%m-%d %H:%M:%S UTC') }}"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Bug Summary:* {{ bug_summary }}"
+      }
+    },
+    {% if issue_id %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "✅ *Action Completed:*\n• Created YouTrack issue: <{{ issue_url }}|{{ issue_id }}>\n• Issue title: {{ issue_title }}"
+      }
+    }
+    {% elif duplicate_issue_id %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "✅ *Action Completed:*\n• Added comment to duplicate issue: <{{ duplicate_url }}|{{ duplicate_issue_id }}>\n• Marked as duplicate with {{ similarity_score }}% confidence"
+      }
+    }
+    {% endif %}
+    {% if execution_time_ms %}
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": "_Execution time: {{ execution_time_ms }}ms_"
+        }
+      ]
+    }
+    {% endif %}
+  ]
+}

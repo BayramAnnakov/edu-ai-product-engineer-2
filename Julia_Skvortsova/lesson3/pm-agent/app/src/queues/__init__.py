@@ -1,0 +1,1 @@
+"""Redis queue implementation for approval processing"""

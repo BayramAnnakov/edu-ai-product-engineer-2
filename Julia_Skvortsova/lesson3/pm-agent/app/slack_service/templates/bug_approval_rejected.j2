@@ -1,0 +1,41 @@
+{
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "❌ Bug Report Rejected"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Rejected by:* <@{{ decided_by }}>\n*Decision time:* {{ decided_at | strftime('%Y-%m-%d %H:%M:%S UTC') }}"
+      }
+    },
+    {% if reason %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Reason:* {{ reason }}"
+      }
+    },
+    {% endif %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Bug Summary:* {{ bug_summary }}"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "🚫 *Status:* No action will be taken. The bug report has been logged for reference."
+      }
+    }
+  ]
+}

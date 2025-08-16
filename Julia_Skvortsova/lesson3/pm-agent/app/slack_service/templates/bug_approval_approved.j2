@@ -1,0 +1,51 @@
+{
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "✅ Bug Report Approved"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Approved by:* <@{{ decided_by }}>\n*Decision time:* {{ decided_at | strftime('%Y-%m-%d %H:%M:%S UTC') }}"
+      }
+    },
+    {% if reason %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Reason:* {{ reason }}"
+      }
+    },
+    {% endif %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Bug Summary:* {{ bug_summary }}"
+      }
+    },
+    {% if immediate_execution %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "🚀 *Action taken immediately:*\n{% if issue_id %}• Created issue: <{{ issue_url }}|{{ issue_id }}>{% else %}• Commented on duplicate issue{% endif %}"
+      }
+    }
+    {% else %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "⏳ *Status:* Approval recorded, action will be executed shortly by the background service."
+      }
+    }
+    {% endif %}
+  ]
+}

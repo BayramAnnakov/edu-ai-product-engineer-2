@@ -1,0 +1,19 @@
+[project]
+name = "mcp-youtrack"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=0.1.0",
+    "httpx>=0.25.0",
+    "pydantic>=2.0.0",
+    "structlog>=24.0.0",
+    "python-dotenv>=1.0.0",
+    "uvicorn>=0.24.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

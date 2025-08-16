@@ -1,0 +1,11 @@
+id,text,rating,source,date
+1,"The app crashes when I try to upload photos. This is really frustrating and makes the app unusable.",1,app_store,2025-01-15
+2,"Love the new dark mode feature! It's exactly what I was hoping for. Great job developers!",5,app_store,2025-01-16
+3,"The search functionality is broken. When I search for items, it returns empty results even though I know the items exist.",2,play_store,2025-01-17
+4,"Would be amazing if you could add support for multiple file formats. Currently only supports JPG but I need PNG and GIF support.",4,web,2025-01-18
+5,"App is decent but the loading times are way too long. Takes forever to start up.",3,app_store,2025-01-19
+6,"Fantastic update! The new sharing features work perfectly. Exactly what our team needed.",5,web,2025-01-20
+7,"There's a bug in the notification system. I keep getting notifications for messages I've already read.",2,play_store,2025-01-21
+8,"Please add a night mode toggle. The current theme is too bright for late evening use.",4,app_store,2025-01-22
+9,"The app keeps logging me out randomly. Have to sign in multiple times per day which is annoying.",2,web,2025-01-23
+10,"Excellent app overall but would love to see integration with Google Calendar for scheduling.",4,play_store,2025-01-24
