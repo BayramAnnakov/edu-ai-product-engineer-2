@@ -1,0 +1,8 @@
+[
+  "extracted_persona_id='P001' existing_persona_id='nastya' match_score=0.95 rationale='Both personas are mobile-first learners who study during commutes, value flexibility, offline access, and are price sensitive. Needs and pain points align closely.'",
+  "extracted_persona_id='P002' existing_persona_id='pavel' match_score=0.8 rationale=\"Both are highly motivated, value progress tracking, certificates, and gamification. Pavel is motivated by streaks and ratings, which aligns with the Motivated Self-Improver's needs.\"",
+  "extracted_persona_id='P003' existing_persona_id='igor' match_score=0.85 rationale=\"Both are focused on programming upskilling, value hands-on tasks, high-quality code editors, and instant feedback. Igor's late-night study habits and desire for challenging tasks match well.\"",
+  "extracted_persona_id='P004' existing_persona_id='dmitry_hobby' match_score=0.7 rationale=\"Both value community interaction and peer support. Dmitry enjoys sharing work and interactive courses, which aligns with the Community-Oriented Learner's needs for social features and motivation.\"",
+  "extracted_persona_id='P005' existing_persona_id='svetlana' match_score=0.65 rationale=\"Both are price sensitive and rely on open/free lessons before paying. Svetlana seeks value and flexible pacing, which matches the Value-Conscious Skeptic's concerns.\"",
+  "extracted_persona_id='P006' existing_persona_id=None match_score=0.0 rationale='General Satisfied User is a broad segment with no direct match among the more specific existing personas.'"
+]

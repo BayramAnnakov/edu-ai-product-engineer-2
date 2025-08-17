@@ -1,0 +1,29 @@
+{
+  "name": "ReplayLearn",
+  "description": "ReplayLearn is a flexible online learning platform designed for modern learners who want to master skills at their own pace. It empowers users to reset course progress, enjoy a robust coding experience, and access learning materials fully offline. By addressing key user pain points, ReplayLearn ensures a seamless, motivating, and accessible learning journey.",
+  "one_sentence_description": "Master skills your way—reset, code, and learn anywhere.",
+  "target_personas": [
+    "Mobile Learner On-the-Go",
+    "Motivated Self-Improver",
+    "Practical Programmer"
+  ],
+  "key_features": [
+    "Course Progress Reset: Easily clear and restart any course to reinforce knowledge or prepare for new challenges.",
+    "Enhanced Code Editor: Fast, lag-free editor with autocomplete and improved tabulation for both mobile and desktop users.",
+    "Complete Offline Mode: Download all course content—including paid videos and interactive tests—for uninterrupted learning anywhere."
+  ],
+  "hypotheses": [
+    {
+      "id": "H1",
+      "description": "Users will adopt this solution because it directly addresses their most requested features (progress reset, improved code editor, offline access)."
+    },
+    {
+      "id": "H2",
+      "description": "Users will pay for this because full offline access and advanced coding tools provide tangible value over free alternatives."
+    },
+    {
+      "id": "H3",
+      "description": "This solution is better than alternatives because it uniquely combines flexible progress management, superior code editing, and true offline capability."
+    }
+  ]
+}
