@@ -1,0 +1,6 @@
+openai
+mcp[cli]
+rapidfuzz
+python-dotenv
+requests
+python-telegram-bot
