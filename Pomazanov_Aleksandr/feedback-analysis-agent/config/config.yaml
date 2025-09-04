@@ -1,0 +1,52 @@
+# Feedback Analyzer Configuration
+
+# LLM Settings
+llm:
+  provider: "openai"  # openai or anthropic
+  model: "gpt-4"
+  max_tokens: 1000
+  temperature: 0.1
+
+# File Processing Settings
+processing:
+  supported_formats: [".txt", ".csv", ".json", ".xlsx"]
+  batch_size: 10
+  encoding: "utf-8"
+
+# Analysis Settings
+analysis:
+  confidence_threshold: 0.7
+  max_key_phrases: 5
+  max_actionable_items: 3
+
+# Output Settings
+output:
+  format: "json"  # json or csv
+  include_raw_data: false
+  pretty_print: true
+
+# Categories Configuration
+categories:
+  functionality:
+    keywords: ["function", "work", "feature", "tool"]
+    description: "Core product functionality issues"
+  
+  ux_ui:
+    keywords: ["interface", "design", "layout", "button", "menu"]
+    description: "User experience and interface issues"
+  
+  performance:
+    keywords: ["slow", "fast", "speed", "load", "lag"]
+    description: "Performance and speed related feedback"
+  
+  bugs:
+    keywords: ["bug", "error", "crash", "broken", "fail"]
+    description: "Bug reports and technical issues"
+  
+  feature_request:
+    keywords: ["want", "need", "add", "feature", "request"]
+    description: "Requests for new features"
+  
+  general:
+    keywords: []
+    description: "General feedback not fitting other categories"
