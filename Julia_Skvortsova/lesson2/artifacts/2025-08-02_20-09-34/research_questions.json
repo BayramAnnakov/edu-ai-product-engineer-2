@@ -1,0 +1,41 @@
+{
+  "warmup": [
+    "Can you tell us about the last online course you took—how did you approach your study and what motivated you to complete (or pause) it?",
+    "Have you ever paused a course or wanted to review material from the beginning? What typically happens in those situations?"
+  ],
+  "diverge": [
+    {
+      "text": "Imagine you have the option to reset your progress in an online course whenever you want, starting again from scratch—what are your initial thoughts about this feature?",
+      "covers": [
+        "H1",
+        "H2"
+      ],
+      "rationale": "This question explores user attitudes toward the reset concept, gauges natural reactions, and uncovers perceived value or drawbacks."
+    },
+    {
+      "text": "Can you describe scenarios where you would (or wouldn’t) want to use a course reset option? What would motivate your choice?",
+      "covers": [
+        "H1",
+        "H2"
+      ],
+      "rationale": "This uncovers specific use cases and contexts, helping validate the assumption that learners find this feature relevant and actionable."
+    },
+    {
+      "text": "How does the idea of a course reset compare to what you’ve seen or used on other learning platforms?",
+      "covers": [
+        "H3"
+      ],
+      "rationale": "This investigates the competitive landscape and whether replay functionality is perceived as a valuable differentiator."
+    }
+  ],
+  "converge": [
+    "If you had to choose between revisiting old lessons one by one or doing a full course reset, which would you prefer, and why?",
+    "How much more likely would you be to repeat a course (for mastery or review) if starting over was just one click away?",
+    "Thinking of other platforms you’ve used, would the ability to reset progress make you prefer one over the others? Why or why not?"
+  ],
+  "closure": [
+    "Is there anything about the course reset feature that would make you hesitate to use it or could cause frustration?",
+    "Based on what you’ve heard, how likely would you be to recommend a platform with this feature to a friend or classmate?",
+    "What, if anything, feels risky or unclear about the idea of letting users reset their progress? What would you want to know before using it?"
+  ]
+}

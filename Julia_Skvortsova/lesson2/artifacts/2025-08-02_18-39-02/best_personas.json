@@ -1,0 +1,23 @@
+[
+  {
+    "id": "svetlana",
+    "name": "Svetlana Orlova",
+    "background": "33-year-old accountant in Samara planning a switch to analytics. Seeks beginner-friendly, structured\npaths and relies on recommendations and open lessons to trial before paying. Needs flexible pacing\nand clear progress signals.\n",
+    "match_score": 0.8,
+    "extracted_persona_id": "P003"
+  },
+  {
+    "id": "nikita",
+    "name": "Nikita Orlov",
+    "background": "19-year-old first-year CS student in Perm. Competitive, studies almost every day and proudly keeps\na long learning streak. Races peers on the knowledge leaderboard and seeks challenging tasks to\nkeep climbing. Shares badges and milestones in class chats.",
+    "match_score": 0.78,
+    "extracted_persona_id": "P004"
+  },
+  {
+    "id": "nastya",
+    "name": "Anastasia Moroz",
+    "background": "21-year-old 3rd-year economics student in Novosibirsk. Studies on mobile during commutes and evenings,\nprefers self-paced courses with practice. Wants certificates to add to her CV. Price sensitive; buys on\ndiscounts. Uses wishlist for price drops.\n",
+    "match_score": 0.75,
+    "extracted_persona_id": "P002"
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "warmup": [
+    "Can you tell us about your current methods and platforms for learning new skills or topics?",
+    "What are some of the biggest challenges or frustrations you've faced with online courses or self-study?"
+  ],
+  "diverge": [
+    {
+      "text": "Imagine a mobile platform where you can reset your progress on any course and start over at any time. What are your thoughts on this feature? How would you see yourself using it, if at all?",
+      "covers": [
+        "H1"
+      ],
+      "rationale": "This question explores initial reactions and potential use cases of the course reset feature, directly addressing whether repeat learning is a valued workflow."
+    },
+    {
+      "text": "How do you feel about having leaderboards, badges, and competitive challenges as part of your learning experience? Would these features affect your motivation or daily participation?",
+      "covers": [
+        "H2"
+      ],
+      "rationale": "This question uncovers the attractiveness and motivational impact of gamification and competition features for different user types."
+    },
+    {
+      "text": "If you could search for specific topics or keywords within and across courses, how useful do you think that would be for your learning? Can you recall moments when such a feature would have helped you in the past?",
+      "covers": [
+        "H3"
+      ],
+      "rationale": "This probes into perceived value and practical utility of advanced in-app search, testing if it addresses real frustrations and accelerates learning."
+    },
+    {
+      "text": "What role does community or social interaction play in your online learning experience, and in what ways do you seek or avoid peer engagement?",
+      "covers": [
+        "H2"
+      ],
+      "rationale": "Broadens exploration of social features beyond pure competition to capture the importance and desired forms of peer interaction."
+    }
+  ],
+  "converge": [
+    "If you could only have one of the following features—course reset, gamification/leaderboards, or advanced in-app search—which would you choose and why?",
+    "How likely would you be to pay for or subscribe to a mobile learning platform with these features if the price was right for your budget?",
+    "How does this concept compare to other online learning tools or platforms you’ve used—what stands out as better or worse?"
+  ],
+  "closure": [
+    "Are there any aspects of this platform or its features that would prevent you from using it, even if the price or content were appealing?",
+    "How likely are you to recommend CourseCraft to a friend or peer if it delivers on these features?",
+    "What are the biggest risks, uncertainties, or doubts you have about CourseCraft or its approach to learning?"
+  ]
+}

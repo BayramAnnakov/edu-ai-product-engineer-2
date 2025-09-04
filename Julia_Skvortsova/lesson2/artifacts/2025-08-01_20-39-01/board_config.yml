@@ -1,0 +1,85 @@
+hypotheses:
+- description: Users will adopt this solution because it directly addresses their
+    most requested features (progress reset, improved code editor, offline access).
+  id: H1
+- description: Users will pay for this because full offline access and advanced coding
+    tools provide tangible value over free alternatives.
+  id: H2
+- description: This solution is better than alternatives because it uniquely combines
+    flexible progress management, superior code editing, and true offline capability.
+  id: H3
+personas:
+- background: These users value the flexibility of learning anywhere, often using
+    mobile devices during commutes or in between other activities. They appreciate
+    offline access and the ability to quickly review material on the go.
+  id: P001
+  name: Mobile Learner On-the-Go
+- background: These users are proactive in their learning, seeking platforms that
+    help them upskill and track progress. They value features like certificates, progress
+    tracking, and the ability to revisit and reset content.
+  id: P002
+  name: Motivated Self-Improver
+- background: These users are focused on programming and technical upskilling. They
+    value challenging tasks, high-quality code editors, and efficient workflows. Many
+    compare the platform to competitors and are sensitive to tool performance.
+  id: P003
+  name: Practical Programmer
+- background: These users value social and collaborative aspects of learning, such
+    as discussion forums, structured comments, and the ability to interact with peers.
+    They seek motivation and support from the community.
+  id: P004
+  name: Community-Oriented Learner
+phase_config:
+  closure:
+    max_follow_ups: 0
+  converge:
+    force_tradeoffs: true
+  diverge:
+    max_follow_ups: 2
+  warmup:
+    max_follow_ups: 1
+product:
+  description: ReplayLearn is a flexible online learning platform designed for modern
+    learners who want to master skills at their own pace. It empowers users to reset
+    course progress, enjoy a robust coding experience, and access learning materials
+    fully offline. By addressing key user pain points, ReplayLearn ensures a seamless,
+    motivating, and accessible learning journey.
+  name: ReplayLearn
+questions:
+  closure:
+  - Are there any aspects of ReplayLearn that would prevent you from using it, even
+    if other features were appealing?
+  - How likely are you to recommend ReplayLearn to someone with similar learning needs?
+    What would influence your recommendation?
+  - "What\u2019s the biggest risk or unknown you see with ReplayLearn that would make\
+    \ you hesitate to use or invest time in it?"
+  converge:
+  - "If you had to choose, which ReplayLearn feature\u2014progress reset, advanced\
+    \ code editor, or full offline access\u2014would be most important for your learning\
+    \ goals? Why?"
+  - "Based on what you\u2019ve heard, how likely would you be to pay for ReplayLearn\u2019\
+    s premium features? What would make it worth the cost for you?"
+  - Thinking about your current learning tools, what would make you switch to ReplayLearn
+    or recommend it to a friend?
+  diverge:
+  - covers:
+    - H1
+    - H2
+    rationale: This question explores initial reactions to the core value propositions,
+      revealing whether the highlighted features address real needs and if they could
+      drive adoption or willingness to pay.
+    text: "Looking at the ReplayLearn concept\u2014with features like course progress\
+      \ reset, a high-performance code editor, and full offline access\u2014what stands\
+      \ out to you as most appealing or surprising? Why?"
+  - covers:
+    - H3
+    rationale: This question assesses perceived differentiation and competitive advantage,
+      helping determine if the unique feature set is compelling compared to alternatives.
+    text: "How do you think ReplayLearn\u2019s combination of repeatable progress,\
+      \ advanced coding tools, and offline access compares to other platforms you\u2019\
+      ve used or considered?"
+  warmup:
+  - "Can you tell us about a recent experience where you tried to learn or practice\
+    \ a new skill\u2014especially on your phone or while offline?"
+  - What are the biggest frustrations or obstacles you currently face when using online
+    learning platforms for coding or self-improvement?

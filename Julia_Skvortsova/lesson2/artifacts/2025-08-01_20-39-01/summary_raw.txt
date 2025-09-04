@@ -1,0 +1,73 @@
+0. Executive Summary  
+User sentiment is overwhelmingly positive (approx. 90% 5-star reviews), with users praising course variety, offline access, and overall usability. The main problems cited are lack of certain UX features (resetting course progress, in-course search, improved code editor) and minor playback limitations. Users value the platform’s accessibility, free content, and flexible learning options. Technical complaints are rare but include code editor lag and video playback restrictions. The overall sentiment is strongly positive, but several recurring UX feature requests should be prioritized to maintain satisfaction.
+
+1. Source-Specific Highlights  
+Source_1: Users frequently request the ability to reset course progress and enhanced playback controls. Praise centers on course diversity, offline features, and interface usability.  
+Source_2: Unique complaints about code editor performance and course clarity. Requests for in-course search and progress reset also appear.  
+Source_3: Users highlight low course costs, gamification, and mobile accessibility. Some platform-specific negatives include code editor limitations and occasional video player lag.
+
+2. Top Complaints (Top 5 themes)  
+a) Lack of Course Progress Reset  
+- Frequency: 5 (approx. 10%)  
+- Quote: “не хватает сброса прогресса по курсу.” (Source_2, 2025-05-21)  
+- Severity: Medium (recurring, impacts returning users’ learning flow)  
+- Recommendations: Implement a “reset progress” option; add in onboarding/FAQ.
+
+b) Limited In-Course Search  
+- Frequency: 3 (approx. 6%)  
+- Quote: “очень хочется чтобы в будущем появился поиск внутри курса по ключевым словам” (Source_2, 2025-06-18)  
+- Severity: Medium (affects content discoverability)  
+- Recommendations: Add keyword search within courses; prioritize for content-heavy courses.
+
+c) Code Editor Performance/Usability  
+- Frequency: 4 (approx. 8%)  
+- Quote: “редактор кода в программе сильно лагает на 20 и выше строках” (Source_2, 2022-10-17)  
+- Severity: Medium (impacts core learning for programming courses)  
+- Recommendations: Optimize code editor for mobile; improve tabulation and autocompletion.
+
+d) Playback and Download Limitations  
+- Frequency: 4 (approx. 8%)  
+- Quote: “нельзя проигрывать видео уроки с выключенным экраном” (Source_1, 2024-12-27)  
+- Severity: Low (inconvenience, not core-blocking)  
+- Recommendations: Enable background playback; expand offline test-taking.
+
+e) Payment/Content Access Concerns  
+- Frequency: 1 (approx. 2%)  
+- Quote: “Все курсы платные. Очередной разводняк на деньги.” (Source_1, 2024-02-23)  
+- Severity: Low (isolated, but strong negative sentiment)  
+- Recommendations: Clarify free vs. paid content; highlight free offerings more prominently.
+
+3. Positive Feedback (Top 3 themes)  
+a) Course Variety and Quality  
+- Users consistently praise the wide range of courses and up-to-date content, supporting diverse learning goals. Amplify by expanding course catalog and promoting new topics.
+
+b) Offline and Flexible Access  
+- Offline downloads and flexible learning schedules are highly valued. Continue improving offline features and promote them in marketing.
+
+c) Usability and Motivation Features  
+- Users appreciate intuitive interface, progress tracking, and gamification. Enhance by adding more motivational elements (e.g., badges, friend competitions).
+
+4. Technical Issues & Errors  
+- Code editor lag on mobile (Source_2, 2022-10-17; Source_3, 2023-04-11): 2 reports, medium priority, impacts programming courses.
+- Occasional video player lag (Source_3, 2020-12-12): 1 report, low priority.
+- No widespread crash/bug reports.
+
+5. Improvement Suggestions  
+UX: Add progress reset, in-course search, better playback controls, folder-based favorites, comment threading, and customizable certificate designs.  
+Content: Broaden course topics, update new courses tab more frequently.  
+Functionality: Enhance code editor (autocompletion, tabulation), allow offline test-taking.  
+Performance: Optimize code editor for longer code snippets.  
+Expected impact: Increased retention, improved learning efficiency, higher user satisfaction.
+
+6. Risks & Unknowns  
+- Limited data on payment issues; only one strong negative review.
+- Some suggestions may reflect power users rather than general population.
+- No data on accessibility or support responsiveness.
+- Non-English reviews translated; possible nuance loss.
+
+7. Confidence & Limitations  
+Confidence score: 85 (High)  
+- Review volume is high and consistent across sources.
+- Minor risk of sarcasm or idiomatic misunderstanding in Russian reviews.
+- Some reviews are brief or lack detail, limiting depth for certain themes.
+- Platform/version info is mostly missing, reducing precision for technical prioritization.
