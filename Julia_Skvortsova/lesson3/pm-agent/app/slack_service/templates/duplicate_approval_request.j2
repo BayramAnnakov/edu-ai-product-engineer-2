@@ -1,0 +1,76 @@
+{
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "🔄 Uncertain Duplicate Detection"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Similarity Score:* {{ similarity_score }}% (uncertain range)\n*Risk Level:* {{ risk_level | title }}"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*New Bug Report:*\n{{ bug_summary }}"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Potential Duplicate:*\n<{{ duplicate_url }}|{{ duplicate_issue_id }}>: {{ duplicate_title }}"
+      }
+    },
+    {% if duplicate_description %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Existing Issue Description:*\n```{{ duplicate_description[:300] }}{% if duplicate_description|length > 300 %}...{% endif %}```"
+      }
+    },
+    {% endif %}
+    {
+      "type": "divider"
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Decision needed:* Should this be marked as a duplicate?"
+      }
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "✅ Yes, it's a duplicate"
+          },
+          "style": "primary",
+          "action_id": "approve",
+          "value": "{{ approval_id }}"
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "❌ No, create new issue"
+          },
+          "style": "danger",
+          "action_id": "reject",
+          "value": "{{ approval_id }}"
+        }
+      ]
+    }
+  ]
+}

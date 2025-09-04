@@ -1,0 +1,13 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "PM Agent PostgreSQL",
+      "Group": "PM Agent",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "pm_agent",
+      "Username": "agent",
+      "SSLMode": "prefer"
+    }
+  }
+}

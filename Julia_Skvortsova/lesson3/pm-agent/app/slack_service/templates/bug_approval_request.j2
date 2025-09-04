@@ -1,0 +1,96 @@
+{
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "🤔 Bug Report Requires Approval"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Reason:* {{ reason }}\n*Priority:* {{ priority | default('Normal') }}\n*Risk Level:* {{ risk_level | title }}"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Bug Summary:*\n{{ bug_summary }}"
+      }
+    },
+    {% if bug_description %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Description:*\n```{{ bug_description[:500] }}{% if bug_description|length > 500 %}...{% endif %}```"
+      }
+    },
+    {% endif %}
+    {% if duplicate_candidates and duplicate_candidates|length > 0 %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Potential Duplicates Found:*"
+      }
+    },
+    {% for candidate in duplicate_candidates[:3] %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "• <{{ candidate.url }}|{{ candidate.id }}>: {{ candidate.title }}\n  _Similarity: {{ candidate.score }}%_"
+      }
+    },
+    {% endfor %}
+    {% if duplicate_candidates|length > 3 %}
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "_... and {{ duplicate_candidates|length - 3 }} more candidates_"
+      }
+    },
+    {% endif %}
+    {% endif %}
+    {
+      "type": "divider"
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Review Details:*\n• Review ID: `{{ review_id }}`\n• Trace ID: `{{ langfuse_trace_id | default('N/A') }}`\n• Agent: {{ agent_name | default('BugBot') }}"
+      }
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Approve & Create Issue"
+          },
+          "style": "primary",
+          "action_id": "approve",
+          "value": "{{ approval_id }}"
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Reject"
+          },
+          "style": "danger",
+          "action_id": "reject",
+          "value": "{{ approval_id }}"
+        }
+      ]
+    }
+  ]
+}
